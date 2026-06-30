@@ -34,6 +34,8 @@ export default function SiteScroll() {
         <SceneRuntimeProvider>
           <CursorGlow glow={world.glow} />
 
+          <a href="#pitch-content" className="skip-link">Skip to presentation</a>
+
           {/* scroll progress */}
           <motion.div
             className="fixed left-0 right-0 top-0 z-50 h-[3px] origin-left"
@@ -41,7 +43,7 @@ export default function SiteScroll() {
           />
 
           {/* persistent nav — mix-blend keeps it legible over any world */}
-          <header className="no-print fixed inset-x-0 top-0 z-40 flex items-center justify-between px-[5vw] py-6 mix-blend-difference">
+          <header aria-label="Presentation header" className="no-print fixed inset-x-0 top-0 z-40 flex items-center justify-between px-[5vw] py-6 mix-blend-difference">
             <span className="font-grotesk text-xl font-extrabold text-white">GAP — CRM</span>
             <span className="font-hanken hidden text-[0.7rem] uppercase tracking-[0.3em] text-white sm:block">
               The Brand That Knows Your Fit
@@ -50,6 +52,7 @@ export default function SiteScroll() {
 
           {/* current-world indicator */}
           <div
+            aria-hidden="true"
             className="no-print fixed bottom-5 left-[5vw] z-40 flex items-center gap-2 font-hanken text-[0.7rem] uppercase tracking-[0.3em]"
             style={{ color: world.accent }}
           >
@@ -59,7 +62,7 @@ export default function SiteScroll() {
 
           <SoundToggle world={active} accent={world.accent} />
 
-          <main className="relative">
+          <main id="pitch-content" className="relative">
             <Hero onActive={setActive} />
             <GapToday onActive={setActive} />
             <Problem onActive={setActive} />

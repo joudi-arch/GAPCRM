@@ -1,12 +1,15 @@
 import { useEffect, useRef } from 'react'
+import { useReducedMotion } from 'framer-motion'
 
 // A soft glow + small dot that trail the cursor across a brand world.
 // Pass the world's glow color. Disabled on touch devices via CSS.
 export default function CursorGlow({ glow = 'rgba(255,255,255,0.18)' }) {
+  const reducedMotion = useReducedMotion()
   const glowRef = useRef(null)
   const dotRef = useRef(null)
 
   useEffect(() => {
+    if (reducedMotion) return
     const g = glowRef.current
     const d = dotRef.current
     if (!g || !d) return
@@ -40,7 +43,9 @@ export default function CursorGlow({ glow = 'rgba(255,255,255,0.18)' }) {
       window.removeEventListener('pointermove', onMove)
       cancelAnimationFrame(raf)
     }
-  }, [])
+  }, [reducedMotion])
+
+  if (reducedMotion) return null
 
   return (
     <>

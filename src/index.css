@@ -53,6 +53,13 @@ body {
   border-radius: 2px;
 }
 
+.skip-link {
+  position: fixed; left: 1rem; top: 1rem; z-index: 100;
+  transform: translateY(-180%); background: #fff; color: #002a5f;
+  padding: 0.75rem 1rem; font-weight: 700;
+}
+.skip-link:focus { transform: translateY(0); }
+
 /* Hide scrollbars inside the stage */
 ::-webkit-scrollbar {
   width: 0;
@@ -155,6 +162,15 @@ body {
   background: #fff; mix-blend-mode: difference; will-change: transform;
 }
 @media (hover: none) { .brandworld { cursor: auto; } .cursor-glow, .cursor-dot { display: none; } }
+
+@media (max-width: 819px) {
+  .brandworld { cursor: auto; min-height: 100svh; height: auto; }
+  .cursor-glow, .cursor-dot { display: none; }
+}
+
+@media (max-height: 759px) and (min-width: 820px) {
+  .brandworld > div:last-child { padding-top: 3rem; padding-bottom: 2rem; }
+}
 
 /* Snap container — proximity is gentler alongside Lenis smooth scroll */
 .snap-y { scroll-snap-type: y proximity; }

@@ -26,7 +26,7 @@ export default function SoundToggle({ world, accent = '#ffffff' }) {
       aria-pressed={on}
       aria-label={on ? 'Mute ambient sound' : 'Enable ambient sound'}
       style={{ '--accent': accent }}
-      className="no-print fixed bottom-5 right-5 z-40 flex items-center gap-2 rounded-full border border-white/20 bg-black/30 px-4 py-2 backdrop-blur transition-colors duration-200 hover:bg-black/50"
+      className="no-print fixed bottom-5 right-5 z-40 flex min-h-11 min-w-11 items-center justify-center gap-2 rounded-full border border-white/20 bg-black/30 px-4 py-2 backdrop-blur transition-colors duration-200 hover:bg-black/50"
     >
       {/* equalizer-ish glyph */}
       <span className="flex h-3 items-end gap-[2px]">

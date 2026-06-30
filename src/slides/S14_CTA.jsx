@@ -2,6 +2,9 @@ import { motion } from 'framer-motion'
 import { stagger, riseItem, fadeUp, drawX } from '../components/motion'
 import Reveal from '../components/Reveal'
 import BrandLogo from '../components/BrandLogo'
+import { bigIdeaContent } from '../content/pitch'
+
+const [fitThesisLead, fitThesisClose] = bigIdeaContent.thesis.split('—')
 
 export default function S14CTA({ theme }) {
   return (
@@ -25,15 +28,13 @@ export default function S14CTA({ theme }) {
             <span className="label mb-6 inline-block opacity-75">Our recommendation to Gap</span>
           </Reveal>
           <h1 className="font-display text-hero">
-            <Reveal variants={riseItem}>Make fit Gap's</Reveal>
+            <Reveal variants={riseItem}>{fitThesisLead}—</Reveal>
             <Reveal variants={riseItem}>
-              <span className="font-serif-text italic">identity</span> — not its weakness.
+              <span className="font-serif-text italic">{fitThesisClose}</span>
             </Reveal>
           </h1>
           <motion.p variants={fadeUp} className="mt-8 max-w-2xl text-body opacity-85">
-            Build the fit profile once. Let it drive every recommendation, drop and reward. Move Gap
-            from chasing the next discount to owning the one thing no competitor can copy — knowing
-            its customers better than anyone.
+            {bigIdeaContent.explanation}
           </motion.p>
 
           <motion.div variants={fadeUp} className="mt-10 flex flex-wrap items-center gap-4">

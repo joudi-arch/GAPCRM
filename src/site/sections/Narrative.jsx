@@ -6,8 +6,12 @@ import Magnetic from '../Magnetic'
 import { worlds } from '../worlds'
 import { scrollToId } from '../useSmoothScroll'
 import { GapDenim } from '../three/scenes'
+import { bigIdeaContent, pitchSections } from '../../content/pitch'
+import { team } from '../../deck.config'
 
 const gap = worlds.gap
+const [fitThesisLead, fitThesisClose] = bigIdeaContent.thesis.split('—')
+const fitProfile = Object.fromEntries(bigIdeaContent.profile)
 
 // small reveal helper
 function Up({ children, delay = 0, y = 18, className = '', amount = 0.6 }) {
@@ -217,20 +221,17 @@ export function Insight({ onActive }) {
 }
 
 /* -------------------------------------------------------------- BIG IDEA */
-const RECS = ['’969 Slim Taper · 98%', 'Soft Wear Slim · 94%', 'GapFlex Taper · 91%']
 export function BigIdea({ onActive }) {
   return (
     <Section world={gap} id="big-idea" onActive={onActive} watermark={<span className="font-extrabold">FIT</span>} watermarkClass="bottom-[-6vh] left-[-2vw] text-[40vw]" flood>
       {eyebrow('The recommendation · the Encore framework')}
       <h2 className="font-grotesk max-w-5xl font-extrabold uppercase leading-[0.88] tracking-[-0.035em]" style={{ fontSize: 'clamp(2.6rem, 7.5vw, 7rem)' }}>
-        <Kinetic text="Make fit Gap's" world={gap} />
-        <Kinetic text="whole identity" world={gap} accentIdx={[1]} />
+        <Kinetic text={`${fitThesisLead}—`} world={gap} />
+        <Kinetic text={fitThesisClose} world={gap} accentIdx={[2]} />
       </h2>
       <Up delay={0.4} className="mt-8 max-w-2xl">
         <p className="font-hanken text-lg leading-relaxed" style={{ color: gap.sub }}>
-          Build a denim fit profile <span style={{ color: gap.ink }}>once</span> — and every
-          recommendation, drop and reward is built around it. Gap's biggest weakness, sizing, becomes
-          the thing it's known for.
+          {bigIdeaContent.explanation}
         </p>
       </Up>
 
@@ -238,13 +239,15 @@ export function BigIdea({ onActive }) {
       <Up delay={0.5} className="mt-12 flex flex-wrap items-center gap-5">
         <div className="font-hanken rounded-2xl px-6 py-4" style={{ background: gap.accent, color: '#05070D' }}>
           <div className="text-[0.65rem] uppercase tracking-[0.25em] opacity-70">Your fit profile</div>
-          <div className="font-grotesk text-2xl font-extrabold">Straight · 32W · Slim Taper</div>
+          <div className="font-grotesk text-2xl font-extrabold">
+            {fitProfile['Body shape']} · {fitProfile.Waist}W · {fitProfile['Preferred fit']}
+          </div>
         </div>
         <span className="font-grotesk text-3xl" style={{ color: gap.accent }}>→</span>
         <div className="flex flex-wrap gap-3">
-          {RECS.map((r, i) => (
+          {bigIdeaContent.recommendations.map((recommendation, i) => (
             <motion.div
-              key={r}
+              key={recommendation.name}
               initial={{ opacity: 0, y: 18, rotate: i === 0 ? -3 : i === 2 ? 3 : 0 }}
               whileInView={{ opacity: 1, y: 0, rotate: 0 }}
               viewport={{ once: true, amount: 0.6 }}
@@ -253,7 +256,9 @@ export function BigIdea({ onActive }) {
               style={{ border: `1px solid ${gap.accent}55` }}
             >
               <div className="h-14 w-44" style={{ background: `linear-gradient(160deg, ${gap.blobs[1]}, ${gap.blobs[2]})` }} />
-              <div className="px-4 py-3 text-sm font-semibold" style={{ color: gap.ink }}>{r}</div>
+              <div className="px-4 py-3 text-sm font-semibold" style={{ color: gap.ink }}>
+                {recommendation.name} · {recommendation.match}%
+              </div>
             </motion.div>
           ))}
         </div>
@@ -292,28 +297,25 @@ export function Rollout({ onActive }) {
 }
 
 /* ------------------------------------------------------------------ KPIS */
-const KPIS = [
-  { v: 40, suf: '%', l: 'of members build a fit profile · 12 mo' },
-  { v: 20, suf: '%', l: 'lower denim returns from better fit · 1 yr', down: true },
-  { v: 25, suf: '%', l: 'fit-recommendation conversion · 1 yr' },
-  { v: 15, suf: '%', l: 'repeat purchase rate · 18 mo' },
-  { v: 10, pre: '+', suf: '%', l: 'member vs non-member spend · 18 mo' },
-]
+const KPI_ITEMS = pitchSections.find(({ id }) => id === 'kpis').items
 export function KPIs({ onActive }) {
   return (
     <Section world={gap} id="kpis" onActive={onActive} watermark={<span className="font-extrabold">KPI</span>} watermarkClass="bottom-[-4vh] right-[-2vw] text-[34vw]">
-      {eyebrow('How we measure the shift')}
+      {eyebrow('Proposal targets · how we measure the shift')}
       <h2 className="font-grotesk mb-12 max-w-4xl font-extrabold uppercase leading-[0.9] tracking-[-0.03em]" style={{ fontSize: 'clamp(2.2rem, 5.5vw, 5rem)' }}>
         <Kinetic text="Five numbers — volume to value" world={gap} accentIdx={[4]} />
       </h2>
       <div className="grid grid-cols-2 gap-x-10 gap-y-10 md:grid-cols-5">
-        {KPIS.map((k, i) => (
-          <Up key={k.l} delay={i * 0.08}>
+        {KPI_ITEMS.map((k, i) => (
+          <Up key={k.label} delay={i * 0.08}>
             <div className="font-grotesk flex items-start font-extrabold leading-none" style={{ fontSize: 'clamp(2.6rem,5vw,4.5rem)', color: gap.accent }}>
-              {k.down && <span className="mr-1 text-3xl" style={{ color: gap.ink }}>↓</span>}
-              <CountUp value={k.v} prefix={k.pre} suffix={k.suf} />
+              {k.value === null
+                ? <span style={{ color: gap.ink }}>{k.suffix}</span>
+                : <CountUp value={k.value} prefix={k.prefix} suffix={k.suffix} />}
             </div>
-            <div className="font-hanken mt-3 text-sm leading-snug" style={{ color: gap.sub }}>{k.l}</div>
+            <div className="font-hanken mt-3 text-sm leading-snug" style={{ color: gap.sub }}>
+              {k.label} · {k.horizon}
+            </div>
           </Up>
         ))}
       </div>
@@ -342,7 +344,6 @@ export function WhyNow({ onActive }) {
 }
 
 /* ------------------------------------------------------------------- CTA */
-const TEAM = ['Olha Indilo', 'Iman Chatila', 'Joudi Erfan', 'Andreas Radicchi']
 export function CTA({ onActive }) {
   const flood = { ...gap, base: gap.accent, blobs: ['#2F6BE0', '#1E3A8A', '#0A2A6B'], ink: '#FFFFFF', sub: 'rgba(255,255,255,0.78)' }
   return (
@@ -351,8 +352,8 @@ export function CTA({ onActive }) {
         <span className="inline-block h-px w-12 bg-white/70" /> The ask
       </div>
       <h2 className="font-grotesk max-w-6xl font-extrabold uppercase leading-[0.86] tracking-[-0.035em] text-white" style={{ fontSize: 'clamp(2.8rem, 8vw, 8.5rem)' }}>
-        <Kinetic text="Make fit Gap's identity" world={flood} />
-        <Kinetic text="not its weakness" world={flood} accentIdx={[2]} />
+        <Kinetic text={`${fitThesisLead}—`} world={flood} />
+        <Kinetic text={fitThesisClose} world={flood} accentIdx={[2]} />
       </h2>
       <Up delay={0.4} className="mt-10 flex flex-wrap items-center gap-7">
         <Magnetic strength={0.5}>
@@ -369,7 +370,7 @@ export function CTA({ onActive }) {
       <Up delay={0.5} className="mt-16 border-t border-white/20 pt-6">
         <div className="font-hanken flex flex-wrap items-center justify-between gap-4 text-white/80">
           <div className="flex flex-wrap gap-x-6 gap-y-1 text-lg">
-            {TEAM.map((n) => <span key={n}>{n}</span>)}
+            {team.map((n) => <span key={n}>{n}</span>)}
           </div>
           <span className="text-sm uppercase tracking-[0.2em]">CRM Strategy · 2026 · Les Roches</span>
         </div>

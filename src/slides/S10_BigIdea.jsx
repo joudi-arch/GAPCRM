@@ -3,19 +3,9 @@ import SlideFrame from '../components/SlideFrame'
 import Reveal from '../components/Reveal'
 import AnimatedNumber from '../components/AnimatedNumber'
 import { riseItem, fadeUp, EASE } from '../components/motion'
+import { bigIdeaContent } from '../content/pitch'
 
-const profileRows = [
-  ['Body type', 'Straight · 32W'],
-  ['Preferred fit', 'Slim Taper'],
-  ['Inseam', '30" Ankle'],
-  ['Last purchased', '’969 Original'],
-]
-
-const recs = [
-  { name: '’969 Slim Taper', fit: 98 },
-  { name: 'Soft Wear Slim', fit: 94 },
-  { name: 'GapFlex Taper', fit: 91 },
-]
+const [fitThesisLead, fitThesisClose] = bigIdeaContent.thesis.split('—')
 
 export default function S10BigIdea({ theme, index, total }) {
   return (
@@ -34,15 +24,14 @@ export default function S10BigIdea({ theme, index, total }) {
             </span>
           </Reveal>
           <h2 className="mt-3 font-display text-h1">
-            <Reveal variants={riseItem}>Gap becomes the brand that</Reveal>
+            <Reveal variants={riseItem}>{fitThesisLead}—</Reveal>
             <Reveal variants={riseItem}>
-              <span style={{ color: theme.accent }}>knows your fit.</span>
+              <span style={{ color: theme.accent }}>{fitThesisClose}</span>
             </Reveal>
           </h2>
         </div>
         <motion.p variants={fadeUp} className="mt-2 max-w-xs text-right text-[0.98rem] text-muted">
-          Build a denim fit profile <span className="text-ink">once</span> — and every
-          recommendation, drop and reward is built around it.
+          {bigIdeaContent.explanation}
         </motion.p>
       </div>
 
@@ -67,7 +56,7 @@ export default function S10BigIdea({ theme, index, total }) {
           />
 
           <div className="mt-5 space-y-3">
-            {profileRows.map(([k, v], i) => (
+            {bigIdeaContent.profile.map(([k, v], i) => (
               <motion.div
                 key={k}
                 className="flex items-center justify-between border-b pb-2"
@@ -118,7 +107,7 @@ export default function S10BigIdea({ theme, index, total }) {
           <div className="mt-1 font-display text-2xl">Denim, in your exact fit</div>
 
           <div className="mt-5 grid grid-cols-3 gap-4">
-            {recs.map((r, i) => (
+            {bigIdeaContent.recommendations.map((r, i) => (
               <motion.div
                 key={r.name}
                 className="flex flex-col rounded-lg border bg-paper-card p-4 shadow-sm"
@@ -140,7 +129,7 @@ export default function S10BigIdea({ theme, index, total }) {
                     className="rounded-full px-2 py-0.5 font-mono text-[11px]"
                     style={{ background: theme.accent, color: theme.onAccent }}
                   >
-                    <AnimatedNumber value={r.fit} suffix="% fit" delay={2.5 + i * 0.2} duration={0.9} />
+                    <AnimatedNumber value={r.match} suffix="% fit" delay={2.5 + i * 0.2} duration={0.9} />
                   </span>
                 </div>
               </motion.div>
@@ -155,20 +144,11 @@ export default function S10BigIdea({ theme, index, total }) {
             animate={{ opacity: 1 }}
             transition={{ delay: 3.1 }}
           >
-            {['Fit profile', 'Right recommendation', 'Fewer returns', 'Richer data'].map((step, i) => (
-              <div
-                key={step}
-                className="flex items-center gap-2 rounded-sm px-3 py-2"
-                style={{ background: i === 2 ? theme.accent : 'transparent', border: `1px solid ${theme.rule}` }}
-              >
-                <span
-                  className="font-display text-sm"
-                  style={{ color: i === 2 ? theme.onAccent : theme.ink }}
-                >
-                  {step}
-                </span>
-              </div>
-            ))}
+            <div className="col-span-4 rounded-sm px-3 py-2" style={{ border: `1px solid ${theme.rule}` }}>
+              <span className="font-display text-sm" style={{ color: theme.ink }}>
+                {bigIdeaContent.outcome}
+              </span>
+            </div>
           </motion.div>
         </div>
       </div>

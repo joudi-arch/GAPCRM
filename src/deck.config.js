@@ -1,12 +1,6 @@
-// Single source of truth for deck ordering, per-slide theme, and presenter credits.
+// Single source of truth for deck ordering and per-slide theme.
 // All facts/figures are drawn from the group report + cited brand sources.
-
-export const presenters = {
-  zara: 'Joudi Erfan',
-  uniqlo: 'Olha Indilo',
-  nike: 'Emma', // report §3.3 byline is "Emma" — edit here if a different name presents Nike
-  harley: 'Andreas Radicchi',
-}
+export { presenters } from './content/pitch'
 
 export const team = ['Olha Indilo', 'Iman Chatila', 'Joudi Erfan', 'Andreas Radicchi']
 

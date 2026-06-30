@@ -3,21 +3,29 @@ import SlideFrame from '../components/SlideFrame'
 import Reveal from '../components/Reveal'
 import AnimatedNumber from '../components/AnimatedNumber'
 import { riseItem, fadeUp, EASE } from '../components/motion'
+import { pitchSections } from '../content/pitch'
 
-const kpis = [
-  { value: 40, suffix: '%', dir: 'up', label: 'Fit-Profile Sign-Up', measure: 'Members who build a profile', when: '12 mo · quarterly' },
-  { value: 20, suffix: '%', dir: 'down', label: 'Denim Return Rate', measure: 'Returns from sizing / fit', when: '1 yr · monthly' },
-  { value: 25, suffix: '%', dir: 'up', label: 'Fit-Rec Conversion', measure: 'Buy a recommended product', when: '1 yr · monthly' },
-  { value: 15, suffix: '%', dir: 'up', label: 'Repeat Purchase', measure: 'Return after building a profile', when: '18 mo · quarterly' },
-  { value: 10, prefix: '+', suffix: '%', dir: 'up', label: 'Member Spend Uplift', measure: 'Members vs non-members', when: '18 mo · quarterly' },
+const measures = [
+  'Members who build a profile',
+  'Returns from sizing / fit',
+  'Buy a recommended product',
+  'Return after building a profile',
+  'Members vs non-members',
 ]
+const reviewCadence = ['quarterly', 'monthly', 'monthly', 'quarterly', 'quarterly']
+const kpis = pitchSections.find(({ id }) => id === 'kpis').items.map((item, index) => ({
+  ...item,
+  dir: item.value === null ? 'down' : 'up',
+  measure: measures[index],
+  when: `${item.horizon} · ${reviewCadence[index]}`,
+}))
 
 export default function S12KPIs({ theme, index, total }) {
   return (
     <SlideFrame theme={theme} index={index} total={total} eyebrow="11 · Success Metrics" label="KPIs">
       <Reveal variants={riseItem}>
         <span className="label" style={{ color: theme.accent }}>
-          How we measure the shift
+          Proposal targets · how we measure the shift
         </span>
       </Reveal>
       <h2 className="mt-3 font-display text-h1">
@@ -34,7 +42,9 @@ export default function S12KPIs({ theme, index, total }) {
           >
             <div className="flex items-baseline gap-1">
               <span className="font-display text-5xl" style={{ color: theme.accent }}>
-                <AnimatedNumber value={k.value} prefix={k.prefix || ''} suffix={k.suffix} delay={0.3 + i * 0.08} />
+                {k.value === null
+                  ? k.suffix
+                  : <AnimatedNumber value={k.value} prefix={k.prefix || ''} suffix={k.suffix} delay={0.3 + i * 0.08} />}
               </span>
             </div>
             <div className="mt-1 label flex items-center gap-1 opacity-60">
@@ -50,7 +60,7 @@ export default function S12KPIs({ theme, index, total }) {
                 className="h-full rounded-full"
                 style={{ background: theme.accent }}
                 initial={{ width: 0 }}
-                animate={{ width: `${Math.min(100, k.value * (k.dir === 'down' ? 2 : 2.2))}%` }}
+                animate={{ width: k.value === null ? '0%' : `${Math.min(100, k.value * 2.2)}%` }}
                 transition={{ duration: 1, ease: EASE, delay: 0.4 + i * 0.08 }}
               />
             </div>

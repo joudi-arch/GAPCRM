@@ -1,0 +1,164 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --paper: #faf8f3;
+  --ink: #14110e;
+  --accent: #002a5f; /* swapped per-slide by ThemeProvider */
+  color-scheme: light;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: #2b2722; /* letterbox surround behind the 16:9 stage */
+  color: var(--ink);
+  font-family: '"Public Sans"', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow: hidden;
+}
+
+/* Editorial small-caps label */
+.label {
+  font-family: '"JetBrains Mono"', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.font-display {
+  font-family: 'Libre Caslon Display', Georgia, serif;
+}
+.font-serif-text {
+  font-family: 'Libre Caslon Text', Georgia, serif;
+}
+
+/* tabular figures for animated numbers so width doesn't jitter */
+.tnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+
+/* Focus ring — visible for keyboard nav */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Hide scrollbars inside the stage */
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+/* ---------- PRINT / PDF ---------- */
+@media print {
+  @page {
+    size: 1280px 720px;
+    margin: 0;
+  }
+  body {
+    background: #fff;
+    overflow: visible;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-stack {
+    display: block !important;
+  }
+  .print-slide {
+    width: 1280px !important;
+    height: 720px !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    page-break-after: always;
+    break-after: page;
+    overflow: hidden;
+    position: relative;
+  }
+  .print-slide:last-child {
+    page-break-after: auto;
+    break-after: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ========================================================================
+   MAXIMALIST SCROLL-SITE LAYER — brand worlds, mesh gradients, grain, type
+   ======================================================================== */
+
+.font-grotesk { font-family: 'Bricolage Grotesque', system-ui, sans-serif; }
+.font-hanken  { font-family: 'Hanken Grotesk', system-ui, sans-serif; }
+.font-anton   { font-family: 'Anton', Impact, sans-serif; }
+.font-bodoni  { font-family: 'Bodoni Moda', Georgia, serif; }
+.font-archivo { font-family: 'Archivo', system-ui, sans-serif; }
+.font-oswald  { font-family: 'Oswald', system-ui, sans-serif; }
+
+/* Animated mesh-gradient blobs (GPU-friendly: transform + opacity only). */
+.mesh { position: absolute; inset: -20%; overflow: hidden; pointer-events: none; filter: blur(40px); }
+.mesh-blob {
+  position: absolute; border-radius: 50%;
+  mix-blend-mode: screen; opacity: 0.85;
+  will-change: transform;
+}
+@keyframes blobA { 0%,100% { transform: translate(0,0) scale(1); } 33% { transform: translate(14vw,8vh) scale(1.25); } 66% { transform: translate(-8vw,12vh) scale(0.9); } }
+@keyframes blobB { 0%,100% { transform: translate(0,0) scale(1.1); } 50% { transform: translate(-16vw,-10vh) scale(1.3); } }
+@keyframes blobC { 0%,100% { transform: translate(0,0) scale(0.95); } 40% { transform: translate(12vw,-12vh) scale(1.2); } 75% { transform: translate(6vw,10vh) scale(1.05); } }
+.blob-a { animation: blobA 18s ease-in-out infinite; }
+.blob-b { animation: blobB 22s ease-in-out infinite; }
+.blob-c { animation: blobC 26s ease-in-out infinite; }
+
+/* Film grain overlay */
+.grain::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 1;
+  opacity: 0.10; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Animated link underline that draws on hover */
+.draw-link { position: relative; }
+.draw-link::after {
+  content: ''; position: absolute; left: 0; bottom: -2px; height: 2px; width: 100%;
+  background: currentColor; transform: scaleX(0); transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
+}
+.draw-link:hover::after { transform: scaleX(1); }
+
+/* Cursor glow follows the mouse on brand-world pages */
+.brandworld { cursor: none; }
+.cursor-glow {
+  position: fixed; top: 0; left: 0; width: 460px; height: 460px; border-radius: 50%;
+  pointer-events: none; z-index: 60; transform: translate(-50%, -50%);
+  background: radial-gradient(circle, var(--glow, rgba(255,255,255,0.18)) 0%, transparent 60%);
+  mix-blend-mode: screen; transition: opacity 0.3s; will-change: transform;
+}
+.cursor-dot {
+  position: fixed; top: 0; left: 0; width: 10px; height: 10px; border-radius: 50%;
+  pointer-events: none; z-index: 61; transform: translate(-50%, -50%);
+  background: #fff; mix-blend-mode: difference; will-change: transform;
+}
+@media (hover: none) { .brandworld { cursor: auto; } .cursor-glow, .cursor-dot { display: none; } }
+
+/* Snap container — proximity is gentler alongside Lenis smooth scroll */
+.snap-y { scroll-snap-type: y proximity; }
+.snap-section { scroll-snap-align: start; }
+/* When the scroll site is mounted, let the document scroll */
+html.snap-y, html.snap-y body { height: auto; overflow-x: hidden; overflow-y: auto; }
+html.snap-y #root { height: auto; }

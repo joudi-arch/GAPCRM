@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.worktrees/
+.superpowers/
+.impeccable/
+coverage/
+playwright-report/
+test-results/
+*.log
+.DS_Store

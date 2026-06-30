@@ -1,6 +1,6 @@
 # Execution Status — Gap Shareholder Masterpiece
 
-Last updated: 2026-06-30, Europe/Zurich
+Last updated: 2026-06-30, Europe/Zurich — after Task 1 review
 
 ## Resume in one sentence
 
@@ -13,8 +13,8 @@ Continue the first unchecked task in `docs/superpowers/plans/2026-06-30-gap-shar
 - Baseline commit: `f93287b`
 - Master plan: `docs/superpowers/plans/2026-06-30-gap-shareholder-masterpiece.md`
 - Durable internal ledger: `.superpowers/sdd/progress.md`
-- Current task brief: `.superpowers/sdd/task-1-brief.md`
-- Current task report target: `.superpowers/sdd/task-1-report.md`
+- Current task brief: generate `.superpowers/sdd/task-2-brief.md`
+- Current task report target: `.superpowers/sdd/task-2-report.md`
 
 ## Current state
 
@@ -23,12 +23,14 @@ Continue the first unchecked task in `docs/superpowers/plans/2026-06-30-gap-shar
 - `npm install` succeeded.
 - Untouched baseline `npm run build` succeeded.
 - Known baseline dependency concern: npm reports 1 moderate and 1 high vulnerability. Do not run a blind breaking `npm audit fix --force`; resolve deliberately during production hardening.
-- No implementation task has been completed yet.
+- Task 1 completed at `729b394` and passed independent spec/quality review.
+- Tracked Minor: aggregate `npm run qa` becomes runnable only after Tasks 12–13 add the audit and E2E files.
+- Tracked Minor: the development toolchain now reports 5 advisories (3 moderate, 1 high, 1 critical) plus pending install-script approvals; triage deliberately before the Production Gate.
 
 ## Task ledger
 
-- [ ] Task 1 — Establish automated quality harness and baseline **← NEXT**
-- [ ] Task 2 — Lock canonical architecture and split non-primary routes
+- [x] Task 1 — Establish automated quality harness and baseline (`729b394`; reviewed)
+- [ ] Task 2 — Lock canonical architecture and split non-primary routes **← NEXT**
 - [ ] Task 3 — Centralize pitch content and evidence
 - [ ] Task 4 — Build the exclusive, fallback-first scene runtime
 - [ ] Task 5 — Define the deterministic Big Idea timeline
@@ -67,4 +69,3 @@ Continue the first unchecked task in `docs/superpowers/plans/2026-06-30-gap-shar
 - The result must feel authored, cinematic, persuasive, and technically exceptional—not generic AI output.
 - Use simpler, cheaper workers for mechanical tasks when the platform exposes model choice; reserve strongest workers for architecture, visual judgment, integration, and final review.
 - This environment’s current subagent tool does not expose per-agent model selection. Do not claim a model was selected when the platform did not provide that control.
-

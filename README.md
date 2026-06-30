@@ -49,10 +49,15 @@ recommended for the live presentation.
   stilled (content still fully visible).
 
 ### Routes
-- `/` — the scroll site (the deliverable).
+- `/` — the canonical scroll presentation (the deliverable).
 - `/?lite` — **forces 2D mode** (no live 3D). Use this if the presentation laptop is weak — it's the safe fallback that still looks great.
-- `/?deck` — a legacy 16:9 editorial slide version (keyboard ←/→, kept for reference / a PDF path).
+- `/?deck` — the legacy 16:9 editorial slide version (keyboard ←/→, retained as a compatibility path and loaded only on request).
+- `/?print` — the stacked 16:9 print/PDF submission view, loaded only on request.
 - `/?demo` — the Gap hero on its own (the art-direction sample).
+
+### Presentation architecture
+
+The scroll presentation is the primary runtime. Legacy deck and print surfaces are separate lazy route chunks, so their slide modules do not inflate the default route. React Three Fiber is the approved 3D engine; semantic HTML remains available over the progressive scene layer, with posters covering loading, lite, reduced-motion, errors, and WebGL context loss. See [`docs/architecture/presentation-runtime.md`](docs/architecture/presentation-runtime.md) for the locked runtime decisions.
 
 ## 3D brand worlds (Phase 1)
 

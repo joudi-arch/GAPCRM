@@ -14,6 +14,13 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     assetsInlineLimit: 0,
+    // Route surfaces use named dynamic imports so their production chunks stay
+    // independently inspectable while preserving content-hashed cache keys.
+    rollupOptions: {
+      output: {
+        chunkFileNames: 'assets/[name]-[hash].js',
+      },
+    },
     chunkSizeWarningLimit: 1000, // three.js is intentionally a lazy on-demand chunk
   },
 })

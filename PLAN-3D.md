@@ -1,3 +1,5 @@
+Status: Superseded in engine choice; narrative and fallback principles remain active.
+
 # PLAN-3D.md — 3D brand-world enhancement (Spline-led)
 
 **Status:** Plan — awaiting approval before any build.

@@ -72,6 +72,14 @@ By the end of the Big Idea sequence, the audience should be able to repeat one s
 3. **Shareholder Gate:** narrative, visual system, benchmark worlds, transitions, and evidence are reviewed as one pitch.
 4. **Production Gate:** performance, accessibility, offline delivery, projector dry run, and backup recording all pass.
 
+### Approved Priority Override — 3D and Brand Fidelity
+
+The execution order after content centralization is binding: Tasks 4–7 (runtime and Big Idea), Task 8 (all Phase 2 scenes with a real motorcycle hero), Task 9 (verified official brand marks plus differentiated section art direction), then Tasks 10–14. Do not spend polish time making ordinary 2D sections prettier while Harley, Big Idea, Nike, Zara, or Gap denim remain technically or visually unfinished.
+
+The Harley scene is not complete until it contains recognizable, well-lit motorcycle geometry with wheels, frame, tank, forks, seat, engine mass, and chrome/paint material separation. The current box-and-headlight silhouette is a temporary blockout and must be removed.
+
+Gap, Zara, Uniqlo, Nike, and Harley-Davidson marks must use verified brand-accurate SVG assets rather than typographic or hand-drawn approximations. This is an internal academic presentation; fidelity takes precedence over recreating marks from primitive shapes.
+
 ---
 
 ## File Responsibility Map
@@ -1033,6 +1041,9 @@ git commit -m "feat: integrate the shareholder fit reveal"
 - Modify: `src/site/three/scenes/ZaraWalk.jsx`
 - Modify: `src/site/three/scenes/NikeShoe.jsx`
 - Modify: `src/site/three/scenes/HarleyRide.jsx`
+- Create: `src/site/three/scenes/MotorcycleModel.jsx`
+- Create: `public/3d/models/motorcycle.glb`
+- Create: `public/3d/models/SOURCES.md`
 - Create: `src/site/three/scenes/SectionHandoff.jsx`
 - Modify: `src/site/three/scenes/index.js`
 - Modify: `src/site/three/sceneRegistry.js`
@@ -1087,30 +1098,38 @@ Clone the soldier scene with `SkeletonUtils.clone`, allocate one owned monochrom
 
 Compress `shoe.glb` with Meshopt/Draco using `gltf-transform` and verify the output is at most 3 MB with no visible silhouette or normal-map degradation. Drive idle rotation with `delta`, stop auto-rotation during drag, and reduce Environment resolution from 256 to 128 unless the projector comparison shows visible loss.
 
-- [ ] **Step 5: Replace Harley’s loop with narrative progress**
+- [ ] **Step 5: Replace the Harley blockout with a real motorcycle hero**
+
+Source a legally downloadable, high-quality cruiser or modern-classic motorcycle GLB with clear provenance. Record model title, author, source URL, source license, modifications, and retrieval date in `public/3d/models/SOURCES.md`. Brand-specific paint and scene context may evoke Harley-Davidson, but geometry quality matters more than a logo baked into the mesh.
+
+Optimize the model with glTF Transform until `motorcycle.glb` is at most 3 MB while preserving silhouette, wheel roundness, tank normals, fork geometry, and engine readability. `MotorcycleModel.jsx` clones the cached scene, owns any replacement paint/chrome/rubber materials, disposes owned materials only, and exposes refs for wheel rotation and headlight attachment.
+
+The final composition must visibly include two wheels, front fork, fuel tank, seat, handlebars, engine block, exhaust, and rear frame. Use restrained chrome reflections, near-black paint, warm headlight glass, orange rim light, contact shadow, and shallow fog. Delete the rectangular body mesh and glowing sphere “engine” proxies from the current blockout.
+
+- [ ] **Step 6: Replace Harley’s loop with narrative progress**
 
 Map section entry progress to ride-in position and headlight intensity. Once parked, keep only subtle engine vibration. During the last 15% of section progress, extend one orange light streak across the frame; the Big Idea begins with the same streak cooling to Gap blue and flattening into the scan beam.
 
-- [ ] **Step 6: Verify no frame allocations**
+- [ ] **Step 7: Verify no frame allocations**
 
 Search: `rg -n "useFrame[\\s\\S]{0,500}new (THREE\\.)?(Vector|Matrix|Color|Object3D)" src/site/three/scenes`
 
 Expected: no matches. Manually inspect every `useFrame` body for arrays, object literals assigned per frame, and React state setters.
 
-- [ ] **Step 7: Verify scenes and handoff**
+- [ ] **Step 8: Verify scenes and handoff**
 
 Run: `npm run test && npm run audit:assets && npm run build`
 
-Expected: all tests PASS; each GLB meets its budget; only one canvas exists during the Harley-to-Big-Idea transition.
+Expected: all tests PASS; each GLB meets its budget; only one canvas exists during the Harley-to-Big-Idea transition; the Harley screenshot reads immediately as a finished motorcycle rather than an abstract light rig.
 
-- [ ] **Step 8: Record the checkpoint**
+- [ ] **Step 9: Record the checkpoint**
 
 ```bash
 git add public/3d/models src/site/three/scenes src/site/three/sceneRegistry.js src/site/sections/Benchmarks.jsx
 git commit -m "feat: finish phase two brand-world choreography"
 ```
 
-### Task 9: Replace AI-Slop Patterns with an Authored Visual System
+### Task 9: Install Verified Brand Marks and Build an Authored Visual System
 
 **Files:**
 - Modify: `src/index.css`
@@ -1119,32 +1138,52 @@ git commit -m "feat: finish phase two brand-world choreography"
 - Modify: `src/site/sections/Narrative.jsx`
 - Modify: `src/site/sections/BrandWorld.jsx`
 - Modify: `src/site/sections/Benchmarks.jsx`
+- Modify: `src/components/BrandLogo.jsx`
+- Create: `public/brand/logos/gap.svg`
+- Create: `public/brand/logos/zara.svg`
+- Create: `public/brand/logos/uniqlo.svg`
+- Create: `public/brand/logos/nike.svg`
+- Create: `public/brand/logos/harley-davidson.svg`
+- Create: `public/brand/logos/SOURCES.md`
 - Test: `src/site/worlds.test.js`
+- Test: `src/components/BrandLogo.test.jsx`
 
 **Interfaces:**
-- Produces: semantic world roles `background`, `foreground`, `muted`, `accent`, `accentOn`, `sceneWash`; solid text emphasis; consistent spatial rhythm.
+- Produces: verified brand assets; `BrandLogo({ brand, tone, height, className })`; semantic world roles `background`, `foreground`, `muted`, `accent`, `accentOn`, `sceneWash`; solid text emphasis; deliberately varied section compositions.
 
-- [ ] **Step 1: Write contrast and token tests**
+- [ ] **Step 1: Source and verify the five real brand marks**
+
+Use official brand media pages first and Wikimedia Commons only when an official downloadable vector is unavailable. Record brand, asset title, direct source URL, retrieval date, and whether the SVG is used unchanged in `public/brand/logos/SOURCES.md`. Visually compare every installed mark against the current official mark: Gap navy square and serif wordmark, Zara’s current overlapping serif wordmark, Uniqlo’s bilingual red-square lockup, Nike’s official swoosh proportions, and Harley-Davidson’s Bar & Shield construction.
+
+- [ ] **Step 2: Write the failing BrandLogo asset test**
+
+Render each supported brand and assert it resolves to the expected `/brand/logos/*.svg` through `assetUrl`, has a meaningful accessible label, preserves intrinsic aspect ratio, and does not contain hand-authored `<text>` or approximation paths inside `BrandLogo.jsx`.
+
+- [ ] **Step 3: Replace logo recreations with verified assets**
+
+`BrandLogo` renders the verified SVG through `<img>` for `tone="brand"`. Where a dark world requires a light mark, provide a verified monochrome SVG variant or use an SVG mask only when the source mark is a single-color symbol; do not distort, re-letter, stretch, or redraw any mark. Remove the five switch branches that currently synthesize logos from `<text>`, rectangles, and approximate paths.
+
+- [ ] **Step 4: Write contrast and token tests**
 
 Create a test that calculates relative luminance and asserts each world’s `foreground/background`, `muted/background`, and `accentOn/accent` pairs meet the required ratio. Assert no world exposes a `grad` text-emphasis token.
 
-- [ ] **Step 2: Replace gradient text**
+- [ ] **Step 5: Replace gradient text**
 
 Change `Kinetic` accent words to `color: world.accent`. Remove `backgroundClip`, `WebkitBackgroundClip`, transparent text, and `grad` from `worlds.js`. Use weight, scale, and timing for emphasis.
 
-- [ ] **Step 3: Remove repeated eyebrow grammar**
+- [ ] **Step 6: Remove repeated eyebrow grammar**
 
 Keep a chapter marker only for Hero, Insight, Big Idea, and CTA. Other sections begin directly with the claim or a meaningful sequence label. The three gaps and rollout retain numbers because order carries information.
 
-- [ ] **Step 4: Remove decorative grain and generic glass**
+- [ ] **Step 7: Remove decorative grain and generic glass**
 
 Delete the SVG turbulence grain. Replace translucent bordered rounded panels in rollout and benchmark lessons with either a full-width rule-separated row or a solid color field. Keep border radii at 12 px or below for information containers; pills remain limited to controls/status.
 
-- [ ] **Step 5: Enforce hierarchy limits**
+- [ ] **Step 8: Enforce hierarchy limits**
 
 Set display maximum to 6rem and minimum tracking to `-0.04em`. Add `text-wrap: balance` to headings and `text-wrap: pretty` to narrative paragraphs. Keep body measure between 45ch and 70ch.
 
-- [ ] **Step 6: Create intentional world differences**
+- [ ] **Step 9: Create intentional world and section differences**
 
 - Gap: deep denim, tactile cloth, calm authority.
 - Zara: gallery-black, severe white space, walking silhouette.
@@ -1154,7 +1193,9 @@ Set display maximum to 6rem and minimum tracking to `-0.04em`. Add `text-wrap: b
 
 Each world keeps shared navigation, content protection, and type rhythm so the presentation remains one argument.
 
-- [ ] **Step 7: Run tests and detector**
+Within the Gap narrative, stop repeating the same giant heading-plus-paragraph composition: Gap Today uses a membership/data constellation; Problem uses a collapsing discount vortex; Three Gaps uses a progressive triptych across its three screens; Insight uses four signal objects converging; Rollout becomes a directional system map; KPIs use a measurement wall; Why Now uses the Encore launch as a decisive platform moment; CTA strips back to one monumental ask. Variation must serve the argument, not become a gallery of unrelated effects.
+
+- [ ] **Step 10: Run tests and detector**
 
 Run:
 
@@ -1165,7 +1206,7 @@ node ../.agents/skills/impeccable/scripts/detect.mjs --json src/index.css src/si
 
 Expected: contrast tests PASS; detector reports no gradient text, excessive rounding, decorative grain, or repeated generic card-grid findings.
 
-- [ ] **Step 8: Record the checkpoint**
+- [ ] **Step 11: Record the checkpoint**
 
 ```bash
 git add src/index.css src/site/worlds.js src/site/Kinetic.jsx src/site/sections

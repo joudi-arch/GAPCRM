@@ -30,20 +30,22 @@ Continue the first unchecked task in `docs/superpowers/plans/2026-06-30-gap-shar
 - Task 2 completed at `2503cc4` and passed independent spec/quality review.
 - Tracked Minor: `PrintRoute` currently imports shared exports from `LegacyDeckRoute`, coupling the print payload to the interactive deck module; split shared registry/render helpers during final bundle polish if it remains measurable.
 - Tracked Minor: combined-query route precedence works but lacks a dedicated regression test.
+- Task 3 completed at `0960c0f`; controller review found the implementation spec-compliant and build/test evidence clean after the independent reviewer was blocked by usage limits. The report’s direction-only denim-return target is the correct evidence-honest treatment.
+- User priority override: finish all 3D first; Harley must use a recognizable optimized motorcycle model, not the current box/light blockout. Then install verified official Gap, Zara, Uniqlo, Nike, and Harley-Davidson SVG marks. Then differentiate the remaining slide compositions.
 
 ## Task ledger
 
 - [x] Task 1 — Establish automated quality harness and baseline (`729b394`; reviewed)
 - [x] Task 2 — Lock canonical architecture and split non-primary routes (`2503cc4`; reviewed)
-- [ ] Task 3 — Centralize pitch content and evidence **← NEXT**
-- [ ] Task 4 — Build the exclusive, fallback-first scene runtime
+- [x] Task 3 — Centralize pitch content and evidence (`0960c0f`; controller-reviewed after reviewer usage-limit failure)
+- [ ] Task 4 — Build the exclusive, fallback-first scene runtime **← NEXT**
 - [ ] Task 5 — Define the deterministic Big Idea timeline
 - [ ] Task 6 — Rebuild `BigIdeaScan` as a production scene
 - [ ] Task 7 — Build and integrate the Big Idea experience
 - [ ] Foundation Gate review
 - [ ] Big Idea Gate review
-- [ ] Task 8 — Complete Phase 2 scenes and world handoff
-- [ ] Task 9 — Replace AI-slop patterns with an authored visual system
+- [ ] Task 8 — Complete Phase 2 scenes and world handoff, including a finished motorcycle hero
+- [ ] Task 9 — Install verified brand marks and build differentiated, authored slide compositions
 - [ ] Task 10 — Strengthen the shareholder narrative and ask
 - [ ] Shareholder Gate review
 - [ ] Task 11 — Complete accessibility, reduced motion, and responsive behavior

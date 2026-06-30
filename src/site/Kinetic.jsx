@@ -11,7 +11,7 @@ const wordV = {
 }
 
 // Oversized headline that wipes up word-by-word when scrolled into view.
-// `accentIdx` words get a gradient fill from the world's `grad` stops.
+// Accent words use the world colour; weight and motion provide emphasis.
 export default function Kinetic({
   text,
   className = '',
@@ -35,12 +35,7 @@ export default function Kinetic({
             className="inline-block"
             style={
               accentIdx.includes(i) && world
-                ? {
-                    backgroundImage: `linear-gradient(100deg, ${world.grad[0]}, ${world.grad[1]})`,
-                    backgroundClip: 'text',
-                    WebkitBackgroundClip: 'text',
-                    color: 'transparent',
-                  }
+                ? { color: world.accent }
                 : undefined
             }
           >

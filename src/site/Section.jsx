@@ -18,6 +18,7 @@ export default function Section({
   flood = false,
   className = '',
   contentClass = '',
+  parallax = true,
   scene = null,
   sceneId,
   sceneCamera,
@@ -44,7 +45,7 @@ export default function Section({
       {/* parallax watermark */}
       <motion.div
         aria-hidden
-        style={{ y: wmY }}
+        style={{ y: parallax ? wmY : 0 }}
         className={`pointer-events-none absolute select-none leading-none opacity-[0.06] ${world.font} ${watermarkClass}`}
       >
         {watermark ?? <span className="font-extrabold">{world.name}</span>}
@@ -77,7 +78,7 @@ export default function Section({
       )}
 
       <motion.div
-        style={{ y: contentY }}
+        style={{ y: parallax ? contentY : 0 }}
         className={`relative z-10 mx-auto w-full max-w-[1400px] px-[6vw] ${contentClass}`}
       >
         {children}

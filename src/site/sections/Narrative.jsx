@@ -11,7 +11,6 @@ import { team } from '../../deck.config'
 
 const gap = worlds.gap
 const [fitThesisLead, fitThesisClose] = bigIdeaContent.thesis.split('—')
-const fitProfile = Object.fromEntries(bigIdeaContent.profile)
 
 // small reveal helper
 function Up({ children, delay = 0, y = 18, className = '', amount = 0.6 }) {
@@ -215,53 +214,6 @@ export function Insight({ onActive }) {
             fit.
           </span>
         </p>
-      </Up>
-    </Section>
-  )
-}
-
-/* -------------------------------------------------------------- BIG IDEA */
-export function BigIdea({ onActive }) {
-  return (
-    <Section world={gap} id="big-idea" onActive={onActive} watermark={<span className="font-extrabold">FIT</span>} watermarkClass="bottom-[-6vh] left-[-2vw] text-[40vw]" flood>
-      {eyebrow('The recommendation · the Encore framework')}
-      <h2 className="font-grotesk max-w-5xl font-extrabold uppercase leading-[0.88] tracking-[-0.035em]" style={{ fontSize: 'clamp(2.6rem, 7.5vw, 7rem)' }}>
-        <Kinetic text={`${fitThesisLead}—`} world={gap} />
-        <Kinetic text={fitThesisClose} world={gap} accentIdx={[2]} />
-      </h2>
-      <Up delay={0.4} className="mt-8 max-w-2xl">
-        <p className="font-hanken text-lg leading-relaxed" style={{ color: gap.sub }}>
-          {bigIdeaContent.explanation}
-        </p>
-      </Up>
-
-      {/* animated fit → recommendations flow */}
-      <Up delay={0.5} className="mt-12 flex flex-wrap items-center gap-5">
-        <div className="font-hanken rounded-2xl px-6 py-4" style={{ background: gap.accent, color: '#05070D' }}>
-          <div className="text-[0.65rem] uppercase tracking-[0.25em] opacity-70">Your fit profile</div>
-          <div className="font-grotesk text-2xl font-extrabold">
-            {fitProfile['Body shape']} · {fitProfile.Waist}W · {fitProfile['Preferred fit']}
-          </div>
-        </div>
-        <span className="font-grotesk text-3xl" style={{ color: gap.accent }}>→</span>
-        <div className="flex flex-wrap gap-3">
-          {bigIdeaContent.recommendations.map((recommendation, i) => (
-            <motion.div
-              key={recommendation.name}
-              initial={{ opacity: 0, y: 18, rotate: i === 0 ? -3 : i === 2 ? 3 : 0 }}
-              whileInView={{ opacity: 1, y: 0, rotate: 0 }}
-              viewport={{ once: true, amount: 0.6 }}
-              transition={{ duration: 0.5, delay: 0.6 + i * 0.15, ease: [0.16, 1, 0.3, 1] }}
-              className="font-hanken overflow-hidden rounded-2xl"
-              style={{ border: `1px solid ${gap.accent}55` }}
-            >
-              <div className="h-14 w-44" style={{ background: `linear-gradient(160deg, ${gap.blobs[1]}, ${gap.blobs[2]})` }} />
-              <div className="px-4 py-3 text-sm font-semibold" style={{ color: gap.ink }}>
-                {recommendation.name} · {recommendation.match}%
-              </div>
-            </motion.div>
-          ))}
-        </div>
       </Up>
     </Section>
   )

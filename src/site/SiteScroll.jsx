@@ -3,8 +3,9 @@ import { motion, useScroll, useSpring, MotionConfig } from 'framer-motion'
 import useSmoothScroll from './useSmoothScroll'
 import CursorGlow from './CursorGlow'
 import { worlds } from './worlds'
-import { Hero, GapToday, Problem, Gaps, Insight, BigIdea, Rollout, KPIs, WhyNow, CTA } from './sections/Narrative'
+import { Hero, GapToday, Problem, Gaps, Insight, Rollout, KPIs, WhyNow, CTA } from './sections/Narrative'
 import { ZaraWorld, UniqloWorld, NikeWorld, HarleyWorld } from './sections/Benchmarks'
+import BigIdeaExperience from './sections/BigIdeaExperience'
 import { PerfProvider } from './three/usePerfGuard'
 import { SceneRuntimeProvider } from './three/SceneRuntime'
 import SoundToggle from './SoundToggle'
@@ -68,7 +69,7 @@ export default function SiteScroll() {
             <UniqloWorld onActive={setActive} />
             <NikeWorld onActive={setActive} />
             <HarleyWorld onActive={setActive} />
-            <BigIdea onActive={setActive} />
+            <BigIdeaExperience onActive={setActive} />
             <Rollout onActive={setActive} />
             <KPIs onActive={setActive} />
             <WhyNow onActive={setActive} />

@@ -160,5 +160,10 @@ body {
 .snap-y { scroll-snap-type: y proximity; }
 .snap-section { scroll-snap-align: start; }
 /* When the scroll site is mounted, let the document scroll */
-html.snap-y, html.snap-y body { height: auto; overflow-x: hidden; overflow-y: auto; }
+/* Keep `body` out of the scroll-container chain so sticky story runways work.
+   `clip` prevents horizontal spill without establishing the overflow ancestor
+   that `hidden`/`auto` would create. */
+html.snap-y, html.snap-y body { height: auto; overflow-x: clip; }
+html.snap-y { overflow-y: auto; }
+html.snap-y body { overflow-y: visible; }
 html.snap-y #root { height: auto; }

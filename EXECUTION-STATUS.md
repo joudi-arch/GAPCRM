@@ -1,6 +1,6 @@
 # Execution Status — Gap Shareholder Masterpiece
 
-Last updated: 2026-06-30, Europe/Zurich — after Task 5
+Last updated: 2026-06-30, Europe/Zurich — after Task 6
 
 ## Resume in one sentence
 
@@ -13,8 +13,8 @@ Continue the first unchecked task in `docs/superpowers/plans/2026-06-30-gap-shar
 - Baseline commit: `f93287b`
 - Master plan: `docs/superpowers/plans/2026-06-30-gap-shareholder-masterpiece.md`
 - Durable internal ledger: `.superpowers/sdd/progress.md`
-- Current task brief: generate `.superpowers/sdd/task-6-brief.md`
-- Current task report target: `.superpowers/sdd/task-6-report.md`
+- Current task brief: generate `.superpowers/sdd/task-7-brief.md`
+- Current task report target: `.superpowers/sdd/task-7-report.md`
 
 ## Current state
 
@@ -36,6 +36,7 @@ Continue the first unchecked task in `docs/superpowers/plans/2026-06-30-gap-shar
 - Independent Task 4 review was unavailable because subagent usage was exhausted; controller self-review is recorded in `.superpowers/sdd/task-4-report.md`.
 - Task 5 completed at `db8bfbe`: deterministic Big Idea phases and boundary tests are implemented; focused 11/11, full 24/24, and build pass.
 - Terminal requirement: do not give a completion handoff until every brand slide and 3D model, all slide compositions, animations, transitions, fallbacks, routes, logos, and delivery outputs are production-ready and QA verified.
+- Task 6 completed at `33cb4a2`: deterministic scan scene, tailoring rings, owned-resource cleanup, relative-safe model URL, quality-aware bloom, focused 5/5, full 27/27, and build pass. Final model QA must confirm or replace the current Vanguard silhouette.
 
 ## Task ledger
 
@@ -44,8 +45,8 @@ Continue the first unchecked task in `docs/superpowers/plans/2026-06-30-gap-shar
 - [x] Task 3 — Centralize pitch content and evidence (`0960c0f`; controller-reviewed after reviewer usage-limit failure)
 - [x] Task 4 — Build the exclusive, fallback-first scene runtime (`7d8fb36`; controller-reviewed)
 - [x] Task 5 — Define the deterministic Big Idea timeline (`db8bfbe`; controller-reviewed)
-- [ ] Task 6 — Rebuild `BigIdeaScan` as a production scene **← NEXT**
-- [ ] Task 7 — Build and integrate the Big Idea experience
+- [x] Task 6 — Rebuild `BigIdeaScan` as a production scene (`33cb4a2`; controller-reviewed)
+- [ ] Task 7 — Build and integrate the Big Idea experience **← NEXT**
 - [ ] Foundation Gate review
 - [ ] Big Idea Gate review
 - [ ] Task 8 — Complete Phase 2 scenes and world handoff, including a finished motorcycle hero

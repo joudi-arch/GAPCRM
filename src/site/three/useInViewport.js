@@ -5,17 +5,21 @@ import { useEffect, useRef, useState } from 'react'
 export default function useInViewport({ rootMargin = '10% 0px', amount = 0.2 } = {}) {
   const ref = useRef(null)
   const [inView, setInView] = useState(false)
+  const [ratio, setRatio] = useState(0)
 
   useEffect(() => {
     const el = ref.current
     if (!el) return
     const io = new IntersectionObserver(
-      ([entry]) => setInView(entry.isIntersecting),
-      { rootMargin, threshold: amount }
+      ([entry]) => {
+        setInView(entry.isIntersecting)
+        setRatio(entry.isIntersecting ? entry.intersectionRatio : 0)
+      },
+      { rootMargin, threshold: [0, 0.15, 0.35, 0.55, 0.75, 1] }
     )
     io.observe(el)
     return () => io.disconnect()
   }, [rootMargin, amount])
 
-  return [ref, inView]
+  return { ref, inView, ratio }
 }

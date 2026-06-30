@@ -2,6 +2,7 @@ import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import MeshGradient from './MeshGradient'
 import SceneStage from './three/SceneStage'
+import { getSceneConfig } from './three/sceneRegistry'
 
 // A full-viewport brand-world section. Paints the world (mesh gradient + grain),
 // a parallax watermark wordmark, and reports itself active for the cursor/nav.
@@ -18,6 +19,7 @@ export default function Section({
   className = '',
   contentClass = '',
   scene = null,
+  sceneId,
   sceneCamera,
   sceneOverlay,
 }) {
@@ -25,6 +27,7 @@ export default function Section({
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
   const wmY = useTransform(scrollYProgress, [0, 1], ['-12%', '12%'])
   const contentY = useTransform(scrollYProgress, [0, 1], ['6%', '-6%'])
+  const sceneConfig = scene ? getSceneConfig(sceneId || id) : null
 
   return (
     <motion.section
@@ -48,7 +51,17 @@ export default function Section({
       </motion.div>
 
       {/* optional 3D brand-world scene (behind content, in-view-only) */}
-      {scene && <SceneStage camera={sceneCamera} overlay={sceneOverlay}>{scene}</SceneStage>}
+      {scene && (
+        <SceneStage
+          sceneId={sceneConfig?.id || sceneId || id}
+          camera={sceneCamera || sceneConfig?.camera}
+          poster={sceneConfig?.poster}
+          interactive={sceneConfig?.interactive}
+          overlay={sceneOverlay}
+        >
+          {scene}
+        </SceneStage>
+      )}
 
       {/* world-flood curtain: a panel that wipes away as the world enters */}
       {flood && (

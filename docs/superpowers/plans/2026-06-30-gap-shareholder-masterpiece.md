@@ -294,7 +294,6 @@ git commit -m "test: establish presentation quality harness"
 - Create: `docs/architecture/presentation-runtime.md`
 - Create: `src/routes/LegacyDeckRoute.jsx`
 - Create: `src/routes/PrintRoute.jsx`
-- Create: `src/routes/SceneCaptureRoute.jsx`
 - Modify: `src/App.jsx`
 - Modify: `vite.config.js`
 - Modify: `README.md`
@@ -303,7 +302,7 @@ git commit -m "test: establish presentation quality harness"
 
 **Interfaces:**
 - Consumes: current query-string routes.
-- Produces: `getPresentationRoute(search): 'site' | 'deck' | 'print' | 'demo' | 'capture'` and lazy route chunks.
+- Produces: `getPresentationRoute(search): 'site' | 'deck' | 'print' | 'demo'` and lazy route chunks.
 
 - [ ] **Step 1: Write the failing route-selection test**
 
@@ -320,7 +319,6 @@ describe('getPresentationRoute', () => {
     ['?deck', 'deck'],
     ['?print', 'print'],
     ['?demo', 'demo'],
-    ['?scene=nike&capture', 'capture'],
   ])('maps %s to %s', (search, expected) => {
     expect(getPresentationRoute(search)).toBe(expected)
   })
@@ -344,12 +342,10 @@ const SiteScroll = lazy(() => import('./site/SiteScroll'))
 const DemoHero = lazy(() => import('./site/DemoHero'))
 const LegacyDeckRoute = lazy(() => import('./routes/LegacyDeckRoute'))
 const PrintRoute = lazy(() => import('./routes/PrintRoute'))
-const SceneCaptureRoute = lazy(() => import('./routes/SceneCaptureRoute'))
 
 export function getPresentationRoute(search = '') {
   const params = new URLSearchParams(search)
   if (params.has('demo')) return 'demo'
-  if (params.has('capture') && params.has('scene')) return 'capture'
   if (params.has('print')) return 'print'
   if (params.has('deck')) return 'deck'
   return 'site'
@@ -360,7 +356,7 @@ function RouteFallback() {
 }
 ```
 
-Move the existing deck registry/render logic without semantic changes into `src/routes/LegacyDeckRoute.jsx`, and the existing `PrintView` into `src/routes/PrintRoute.jsx`. `SceneCaptureRoute.jsx` reads the `scene` query value, renders that registry scene full-viewport inside `SceneRuntimeProvider`, forces quality `high`, and sets `data-scene-ready="true"` only after the canvas reports ready. Render the selected lazy route inside `<Suspense fallback={<RouteFallback />}>`.
+Move the existing deck registry/render logic without semantic changes into `src/routes/LegacyDeckRoute.jsx`, and the existing `PrintView` into `src/routes/PrintRoute.jsx`. Render the selected lazy route inside `<Suspense fallback={<RouteFallback />}>`.
 
 - [ ] **Step 4: Document the superseding decision**
 
@@ -1306,6 +1302,8 @@ git commit -m "fix: make the pitch accessible in every presentation mode"
 **Files:**
 - Modify: `index.html`
 - Create: `src/fonts.js`
+- Create: `src/routes/SceneCaptureRoute.jsx`
+- Modify: `src/App.jsx`
 - Modify: `src/main.jsx`
 - Modify: `src/index.css`
 - Modify: `package.json`
@@ -1349,7 +1347,9 @@ Import `./fonts.js` before `./index.css` in `src/main.jsx`. Delete both Google F
 
 - [ ] **Step 3: Capture deterministic posters**
 
-Use Playwright at 1920×1080 with `?scene=<id>&capture` to wait for a `data-scene-ready="true"` marker, capture PNG, and convert to WebP quality 82. Each final poster must preserve the content-protection region and visually match its live world.
+Add an internal `capture` branch to `getPresentationRoute(search)` when both `scene` and `capture` query parameters are present. Lazy-load `src/routes/SceneCaptureRoute.jsx`; it reads the `scene` query value, renders the matching `sceneRegistry` entry full-viewport inside `SceneRuntimeProvider`, forces quality `high`, and sets `data-scene-ready="true"` only after the canvas reports ready.
+
+Use Playwright at 1920×1080 with `?scene=<id>&capture` to wait for that marker, capture PNG, and convert to WebP quality 82. Each final poster must preserve the content-protection region and visually match its live world.
 
 - [ ] **Step 4: Verify relative deployment**
 

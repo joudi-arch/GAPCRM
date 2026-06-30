@@ -26,6 +26,7 @@ Continue the first unchecked task in `docs/superpowers/plans/2026-06-30-gap-shar
 - Task 1 completed at `729b394` and passed independent spec/quality review.
 - Tracked Minor: aggregate `npm run qa` becomes runnable only after Tasks 12–13 add the audit and E2E files.
 - Tracked Minor: the development toolchain now reports 5 advisories (3 moderate, 1 high, 1 critical) plus pending install-script approvals; triage deliberately before the Production Gate.
+- Plan sequencing correction: the internal `SceneCaptureRoute` moved from Task 2 to Task 12 because it consumes the scene registry created in Task 4. User-facing routes are unchanged.
 
 ## Task ledger
 

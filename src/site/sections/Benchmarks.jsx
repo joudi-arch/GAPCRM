@@ -82,7 +82,7 @@ export function HarleyWorld({ onActive }) {
       proof2={benchmarkById.harley.proof2}
       lesson="Community drives premium loyalty. Belonging lets a brand command a premium and lean far less on discounting."
       logoColor={worlds.harley.ink}
-      scene={<HarleyRide />}
+      scene={(progress) => <HarleyRide progress={progress} />}
       sceneCamera={{ position: [0, 0, 7], fov: 48 }}
     />
   )

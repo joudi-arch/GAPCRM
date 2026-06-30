@@ -29,6 +29,7 @@ export default function Section({
   const wmY = useTransform(scrollYProgress, [0, 1], ['-12%', '12%'])
   const contentY = useTransform(scrollYProgress, [0, 1], ['6%', '-6%'])
   const sceneConfig = scene ? getSceneConfig(sceneId || id) : null
+  const sceneNode = typeof scene === 'function' ? scene(scrollYProgress) : scene
 
   return (
     <motion.section
@@ -60,7 +61,7 @@ export default function Section({
           interactive={sceneConfig?.interactive}
           overlay={sceneOverlay}
         >
-          {scene}
+          {sceneNode}
         </SceneStage>
       )}
 

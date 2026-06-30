@@ -6,8 +6,9 @@ import { useGLTF, useAnimations } from '@react-three/drei'
 import { EffectComposer, Bloom } from '@react-three/postprocessing'
 import { assetUrl } from '../assetUrl'
 import { getBigIdeaState } from './bigIdeaTimeline'
+import SectionHandoff from './SectionHandoff'
 
-export const BIG_IDEA_MODEL_URL = assetUrl('3d/models/soldier.glb')
+export const BIG_IDEA_MODEL_URL = assetUrl('3d/models/mannequin.glb')
 const STATIC_PROGRESS = Object.freeze({ get: () => 0 })
 
 useGLTF.preload(BIG_IDEA_MODEL_URL)
@@ -151,6 +152,7 @@ export default function BigIdeaScan({ progress = STATIC_PROGRESS, quality = 'hig
       <FitFigure progress={progress} />
       <Scanner progress={progress} />
       <Platform />
+      <SectionHandoff progress={progress} mode="gap" />
       {quality === 'high' && (
         <EffectComposer disableNormalPass>
           <Bloom luminanceThreshold={0.65} intensity={0.45} mipmapBlur />

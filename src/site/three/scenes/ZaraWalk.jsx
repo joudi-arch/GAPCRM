@@ -1,25 +1,36 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
+import { clone as skeletonClone } from 'three/examples/jsm/utils/SkeletonUtils.js'
 import { useGLTF, useAnimations, ContactShadows, Environment, Lightformer } from '@react-three/drei'
+import { assetUrl } from '../assetUrl'
 
-useGLTF.preload('/3d/models/soldier.glb')
+export const ZARA_MODEL_URL = assetUrl('3d/models/mannequin.glb')
+
+useGLTF.preload(ZARA_MODEL_URL)
 
 // A monochrome figure walking on the spot — an editorial "moving sculpture"
 // for the Zara runway. (Rigged walk cycle baked into the model.)
 function Walker() {
   const group = useRef()
-  const { scene, animations } = useGLTF('/3d/models/soldier.glb')
+  const { scene, animations } = useGLTF(ZARA_MODEL_URL)
+  const cloned = useMemo(() => skeletonClone(scene), [scene])
+  const material = useMemo(() => new THREE.MeshStandardMaterial({
+    color: '#11100E',
+    roughness: 0.34,
+    metalness: 0.22,
+  }), [])
   const { actions, names } = useAnimations(animations, group)
 
   useEffect(() => {
     // near-black so a backlight rims it into an editorial walking silhouette
-    scene.traverse((o) => {
+    cloned.traverse((o) => {
       if (o.isMesh) {
-        o.material = new THREE.MeshStandardMaterial({ color: '#0a0a0a', roughness: 0.5, metalness: 0.1 })
+        o.material = material
         o.castShadow = true
       }
     })
-  }, [scene])
+    return () => material.dispose()
+  }, [cloned, material])
 
   useEffect(() => {
     const walk = names.find((n) => /walk/i.test(n)) || names[0]
@@ -29,8 +40,8 @@ function Walker() {
   }, [actions, names])
 
   return (
-    <group ref={group} position={[1.1, -1.7, 0]} rotation={[0, -0.35, 0]} scale={1.35}>
-      <primitive object={scene} />
+    <group ref={group} position={[1.35, -1.7, 0]} rotation={[0, -0.35, 0]} scale={1.42}>
+      <primitive object={cloned} />
     </group>
   )
 }
@@ -47,7 +58,7 @@ export default function ZaraWalk() {
         <Lightformer intensity={0.5} position={[3, 0, 3]} scale={[4, 4, 1]} color="#bfb9aa" />
       </Environment>
       <Walker />
-      <ContactShadows position={[1.1, -1.72, 0]} opacity={0.5} scale={10} blur={3} far={3} color="#000000" />
+      <ContactShadows position={[1.35, -1.72, 0]} opacity={0.5} scale={10} blur={3} far={3} color="#000000" />
     </>
   )
 }

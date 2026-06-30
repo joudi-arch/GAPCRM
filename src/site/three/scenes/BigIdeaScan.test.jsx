@@ -15,7 +15,7 @@ describe('BigIdeaScan', () => {
   })
 
   it('resolves the figure model through the Vite base', () => {
-    expect(BIG_IDEA_MODEL_URL).toContain('3d/models/soldier.glb')
+    expect(BIG_IDEA_MODEL_URL).toContain('3d/models/mannequin.glb')
     expect(BIG_IDEA_MODEL_URL).not.toMatch(/^\/3d\//)
   })
 })

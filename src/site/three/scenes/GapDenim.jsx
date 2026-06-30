@@ -1,10 +1,18 @@
-import { useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
-import { useFrame } from '@react-three/fiber'
+import { useFrame, useThree } from '@react-three/fiber'
 import { MeshDistortMaterial, Environment, Lightformer } from '@react-three/drei'
 
 // Procedurally woven denim — a canvas twill texture on a softly billowing sheet.
-function makeDenimTexture() {
+function seededRandom(seed = 0x474150) {
+  let state = seed >>> 0
+  return () => {
+    state = (1664525 * state + 1013904223) >>> 0
+    return state / 0x100000000
+  }
+}
+
+function makeDenimTexture(anisotropy) {
   const s = 256
   const c = document.createElement('canvas')
   c.width = c.height = s
@@ -27,27 +35,32 @@ function makeDenimTexture() {
     ctx.lineTo(i + 2 + s, s)
     ctx.stroke()
   }
-  // fibre speckle
+  // Seeded fibre variation keeps captures stable across browsers and sessions.
+  const random = seededRandom()
   for (let i = 0; i < 2200; i++) {
-    ctx.fillStyle = Math.random() > 0.5 ? 'rgba(150,185,235,0.10)' : 'rgba(5,12,30,0.18)'
-    ctx.fillRect(Math.random() * s, Math.random() * s, 1, 1)
+    ctx.fillStyle = random() > 0.5 ? 'rgba(150,185,235,0.10)' : 'rgba(5,12,30,0.18)'
+    ctx.fillRect(random() * s, random() * s, 1, 1)
   }
   const tex = new THREE.CanvasTexture(c)
   tex.wrapS = tex.wrapT = THREE.RepeatWrapping
   tex.repeat.set(2, 2)
-  tex.anisotropy = 4
+  tex.colorSpace = THREE.SRGBColorSpace
+  tex.anisotropy = anisotropy
   return tex
 }
 
 export default function GapDenim() {
-  const denim = useMemo(makeDenimTexture, [])
+  const maxAnisotropy = useThree((state) => state.gl.capabilities.getMaxAnisotropy())
+  const denim = useMemo(() => makeDenimTexture(Math.min(4, maxAnisotropy)), [maxAnisotropy])
   const group = useRef()
 
+  useEffect(() => () => denim.dispose(), [denim])
+
   // gentle mouse parallax
-  useFrame((state) => {
+  useFrame((state, delta) => {
     if (!group.current) return
-    group.current.rotation.y = THREE.MathUtils.lerp(group.current.rotation.y, -0.5 + state.pointer.x * 0.3, 0.05)
-    group.current.rotation.x = THREE.MathUtils.lerp(group.current.rotation.x, 0.15 - state.pointer.y * 0.2, 0.05)
+    group.current.rotation.y = THREE.MathUtils.damp(group.current.rotation.y, -0.5 + state.pointer.x * 0.3, 6, delta)
+    group.current.rotation.x = THREE.MathUtils.damp(group.current.rotation.x, 0.15 - state.pointer.y * 0.2, 6, delta)
   })
 
   return (

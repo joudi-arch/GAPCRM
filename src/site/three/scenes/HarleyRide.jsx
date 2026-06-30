@@ -1,98 +1,95 @@
-import { useRef, useMemo } from 'react'
+import { useMemo, useRef } from 'react'
 import * as THREE from 'three'
 import { useFrame } from '@react-three/fiber'
+import { ContactShadows, Environment, Lightformer } from '@react-three/drei'
 import { EffectComposer, Bloom } from '@react-three/postprocessing'
+import MotorcycleModel from './MotorcycleModel'
+import SectionHandoff from './SectionHandoff'
 
-// Speed streaks rushing past — conveys a night ride at speed.
-function Streaks({ count = 26 }) {
-  const ref = useRef()
-  const data = useMemo(
-    () =>
-      Array.from({ length: count }, () => ({
-        x: (Math.random() - 0.5) * 14,
-        y: (Math.random() - 0.5) * 6,
-        z: -Math.random() * 30,
-        len: 2 + Math.random() * 4,
-        speed: 8 + Math.random() * 10,
-      })),
-    [count]
-  )
+const STATIC_PROGRESS = Object.freeze({ get: () => 0.58 })
+const seeded = (index) => {
+  const value = Math.sin(index * 91.713 + 14.17) * 43758.5453
+  return value - Math.floor(value)
+}
+
+function RoadStreaks({ progress, count = 18 }) {
+  const instances = useRef()
   const dummy = useMemo(() => new THREE.Object3D(), [])
-  useFrame((_, dt) => {
-    if (!ref.current) return
-    data.forEach((d, i) => {
-      d.z += d.speed * dt
-      if (d.z > 6) {
-        d.z = -30
-        d.x = (Math.random() - 0.5) * 14
-        d.y = (Math.random() - 0.5) * 6
-      }
-      dummy.position.set(d.x, d.y, d.z)
-      dummy.scale.set(0.03, 0.03, d.len)
+  const data = useMemo(() => Array.from({ length: count }, (_, index) => ({
+    x: -7 + seeded(index) * 14,
+    y: -1.25 + seeded(index + 31) * 0.55,
+    z: -9 + seeded(index + 67) * 14,
+    length: 0.6 + seeded(index + 101) * 2.4,
+  })), [count])
+
+  useFrame(() => {
+    if (!instances.current) return
+    const travel = THREE.MathUtils.smoothstep(progress.get(), 0, 0.38) * 8
+    data.forEach((streak, index) => {
+      dummy.position.set(streak.x, streak.y, THREE.MathUtils.euclideanModulo(streak.z + travel + 10, 20) - 10)
+      dummy.scale.set(streak.length, 0.012, 0.012)
       dummy.updateMatrix()
-      ref.current.setMatrixAt(i, dummy.matrix)
+      instances.current.setMatrixAt(index, dummy.matrix)
     })
-    ref.current.instanceMatrix.needsUpdate = true
+    instances.current.instanceMatrix.needsUpdate = true
   })
   return (
-    <instancedMesh ref={ref} args={[null, null, count]}>
+    <instancedMesh ref={instances} args={[null, null, count]}>
       <boxGeometry />
-      <meshBasicMaterial color="#ffb066" toneMapped={false} />
+      <meshBasicMaterial color="#C75A16" transparent opacity={0.42} toneMapped={false} />
     </instancedMesh>
   )
 }
 
-// The bike's light signature, charging in from the right on a loop.
-function Headlight() {
-  const group = useRef()
-  useFrame((state) => {
-    if (!group.current) return
-    const t = (state.clock.elapsedTime % 6) / 6 // 0..1 loop
-    const x = THREE.MathUtils.lerp(7, -0.6, Math.min(t * 1.4, 1)) // ride in, then hold
-    group.current.position.x = x
-    group.current.position.y = -0.3 + Math.sin(state.clock.elapsedTime * 6) * 0.04 // engine shudder
+function MotorcycleHero({ progress }) {
+  const ride = useRef()
+  const bike = useRef()
+  const headlight = useRef()
+  useFrame((state, delta) => {
+    if (!ride.current || !bike.current || !headlight.current) return
+    const value = progress.get()
+    const arrival = THREE.MathUtils.smoothstep(value, 0.02, 0.36)
+    const parked = THREE.MathUtils.smoothstep(value, 0.28, 0.44)
+    const shudder = Math.sin(state.clock.elapsedTime * 18) * 0.006 * parked
+    ride.current.position.x = THREE.MathUtils.damp(ride.current.position.x, THREE.MathUtils.lerp(6.4, 1.65, arrival), 10, delta)
+    bike.current.position.y = THREE.MathUtils.damp(bike.current.position.y, -0.2 + shudder, 20, delta)
+    ride.current.rotation.y = THREE.MathUtils.damp(ride.current.rotation.y, THREE.MathUtils.lerp(-0.08, 0.08, arrival), 9, delta)
+    headlight.current.intensity = THREE.MathUtils.damp(headlight.current.intensity, THREE.MathUtils.lerp(4, 22, arrival), 12, delta)
   })
   return (
-    <group ref={group} position={[7, -0.3, 0]}>
-      {/* main headlight */}
-      <mesh>
-        <sphereGeometry args={[0.34, 24, 24]} />
-        <meshBasicMaterial color="#fff0d0" toneMapped={false} />
-      </mesh>
-      <pointLight color="#ffb066" intensity={26} distance={20} />
-      {/* low engine glows imply the bike body */}
-      <mesh position={[0.15, -0.5, 0]}>
-        <sphereGeometry args={[0.12, 16, 16]} />
-        <meshBasicMaterial color="#F47216" toneMapped={false} />
-      </mesh>
-      <mesh position={[-0.3, -0.55, 0]}>
-        <sphereGeometry args={[0.1, 16, 16]} />
-        <meshBasicMaterial color="#F47216" toneMapped={false} />
-      </mesh>
-      {/* dark body silhouette */}
-      <mesh position={[-0.1, -0.55, 0]}>
-        <boxGeometry args={[1.6, 0.5, 0.6]} />
-        <meshStandardMaterial color="#120c08" roughness={0.9} />
-      </mesh>
+    <group ref={ride} position={[6.4, -0.12, 0]}>
+      <MotorcycleModel groupRef={bike} />
+      <group position={[1.2, 0.5, 0.72]}>
+        <mesh>
+          <sphereGeometry args={[0.16, 24, 16]} />
+          <meshPhysicalMaterial color="#FFE1AE" emissive="#FF9B45" emissiveIntensity={3.5} roughness={0.16} transmission={0.18} toneMapped={false} />
+        </mesh>
+        <pointLight ref={headlight} color="#FFB066" intensity={4} distance={15} decay={1.6} />
+      </group>
     </group>
   )
 }
 
-export default function HarleyRide() {
+export default function HarleyRide({ progress = STATIC_PROGRESS, quality = 'high' }) {
   return (
     <>
-      <fog attach="fog" args={['#0b0a09', 5, 22]} />
-      <ambientLight intensity={0.18} />
-      <Streaks />
-      <Headlight />
-      {/* ground hint with orange spill */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.6, 0]}>
-        <planeGeometry args={[40, 40]} />
-        <meshStandardMaterial color="#0b0a09" roughness={0.7} metalness={0.2} />
+      <fog attach="fog" args={['#090705', 6, 20]} />
+      <ambientLight intensity={0.22} />
+      <spotLight position={[4, 6, 5]} angle={0.42} penumbra={0.9} intensity={5} color="#FFE6CF" />
+      <pointLight position={[-3, 1, 2]} color="#F47216" intensity={9} distance={12} />
+      <Environment resolution={128}>
+        <Lightformer intensity={2.4} position={[1, 4, 4]} scale={[7, 2, 1]} color="#FFE7D2" />
+        <Lightformer intensity={4} position={[-4, 1, -2]} scale={[3, 7, 1]} color="#F47216" />
+      </Environment>
+      <RoadStreaks progress={progress} />
+      <MotorcycleHero progress={progress} />
+      <SectionHandoff progress={progress} mode="harley" />
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.45, 0]}>
+        <planeGeometry args={[36, 28]} />
+        <meshStandardMaterial color="#090705" roughness={0.72} metalness={0.18} />
       </mesh>
-      <EffectComposer disableNormalPass>
-        <Bloom luminanceThreshold={0.2} intensity={1.3} mipmapBlur />
-      </EffectComposer>
+      <ContactShadows position={[1.65, -1.42, 0]} opacity={0.72} scale={10} blur={2.2} far={4} color="#000000" />
+      {quality === 'high' && <EffectComposer disableNormalPass><Bloom luminanceThreshold={0.54} intensity={0.72} mipmapBlur /></EffectComposer>}
     </>
   )
 }

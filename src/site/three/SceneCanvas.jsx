@@ -26,6 +26,7 @@ function ContextLossGuard({ onContextLoss }) {
 export default function SceneCanvas({ children, camera, onReady, onDowngrade }) {
   return (
     <Canvas
+      shadows
       dpr={[1, 1.5]}
       camera={camera || { position: [0, 0, 6], fov: 40 }}
       gl={{ alpha: true, antialias: true, powerPreference: 'high-performance' }}

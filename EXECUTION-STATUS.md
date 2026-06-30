@@ -1,6 +1,6 @@
 # Execution Status — Gap Shareholder Masterpiece
 
-Last updated: 2026-06-30, Europe/Zurich — after Task 1 review
+Last updated: 2026-06-30, Europe/Zurich — after Task 2 review
 
 ## Resume in one sentence
 
@@ -13,8 +13,8 @@ Continue the first unchecked task in `docs/superpowers/plans/2026-06-30-gap-shar
 - Baseline commit: `f93287b`
 - Master plan: `docs/superpowers/plans/2026-06-30-gap-shareholder-masterpiece.md`
 - Durable internal ledger: `.superpowers/sdd/progress.md`
-- Current task brief: generate `.superpowers/sdd/task-2-brief.md`
-- Current task report target: `.superpowers/sdd/task-2-report.md`
+- Current task brief: generate `.superpowers/sdd/task-3-brief.md`
+- Current task report target: `.superpowers/sdd/task-3-report.md`
 
 ## Current state
 
@@ -27,12 +27,15 @@ Continue the first unchecked task in `docs/superpowers/plans/2026-06-30-gap-shar
 - Tracked Minor: aggregate `npm run qa` becomes runnable only after Tasks 12–13 add the audit and E2E files.
 - Tracked Minor: the development toolchain now reports 5 advisories (3 moderate, 1 high, 1 critical) plus pending install-script approvals; triage deliberately before the Production Gate.
 - Plan sequencing correction: the internal `SceneCaptureRoute` moved from Task 2 to Task 12 because it consumes the scene registry created in Task 4. User-facing routes are unchanged.
+- Task 2 completed at `2503cc4` and passed independent spec/quality review.
+- Tracked Minor: `PrintRoute` currently imports shared exports from `LegacyDeckRoute`, coupling the print payload to the interactive deck module; split shared registry/render helpers during final bundle polish if it remains measurable.
+- Tracked Minor: combined-query route precedence works but lacks a dedicated regression test.
 
 ## Task ledger
 
 - [x] Task 1 — Establish automated quality harness and baseline (`729b394`; reviewed)
-- [ ] Task 2 — Lock canonical architecture and split non-primary routes **← NEXT**
-- [ ] Task 3 — Centralize pitch content and evidence
+- [x] Task 2 — Lock canonical architecture and split non-primary routes (`2503cc4`; reviewed)
+- [ ] Task 3 — Centralize pitch content and evidence **← NEXT**
 - [ ] Task 4 — Build the exclusive, fallback-first scene runtime
 - [ ] Task 5 — Define the deterministic Big Idea timeline
 - [ ] Task 6 — Rebuild `BigIdeaScan` as a production scene

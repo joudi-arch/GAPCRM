@@ -1,6 +1,6 @@
 # Execution Status — Gap Shareholder Masterpiece
 
-Last updated: 2026-06-30, Europe/Zurich — after Task 2 review
+Last updated: 2026-06-30, Europe/Zurich — after Task 4 implementation/review
 
 ## Resume in one sentence
 
@@ -13,8 +13,8 @@ Continue the first unchecked task in `docs/superpowers/plans/2026-06-30-gap-shar
 - Baseline commit: `f93287b`
 - Master plan: `docs/superpowers/plans/2026-06-30-gap-shareholder-masterpiece.md`
 - Durable internal ledger: `.superpowers/sdd/progress.md`
-- Current task brief: generate `.superpowers/sdd/task-3-brief.md`
-- Current task report target: `.superpowers/sdd/task-3-report.md`
+- Current task brief: generate `.superpowers/sdd/task-5-brief.md`
+- Current task report target: `.superpowers/sdd/task-5-report.md`
 
 ## Current state
 
@@ -32,14 +32,16 @@ Continue the first unchecked task in `docs/superpowers/plans/2026-06-30-gap-shar
 - Tracked Minor: combined-query route precedence works but lacks a dedicated regression test.
 - Task 3 completed at `0960c0f`; controller review found the implementation spec-compliant and build/test evidence clean after the independent reviewer was blocked by usage limits. The report’s direction-only denim-return target is the correct evidence-honest treatment.
 - User priority override: finish all 3D first; Harley must use a recognizable optimized motorcycle model, not the current box/light blockout. Then install verified official Gap, Zara, Uniqlo, Nike, and Harley-Davidson SVG marks. Then differentiate the remaining slide compositions.
+- Task 4 completed at `7d8fb36`: exclusive scene ownership, fallback-first rendering, static capability gates, scene/context error downgrade, frame-health downgrade, and Nike-only pointer routing are implemented. Focused 3/3 tests, full 13/13 tests, and production build pass.
+- Independent Task 4 review was unavailable because subagent usage was exhausted; controller self-review is recorded in `.superpowers/sdd/task-4-report.md`.
 
 ## Task ledger
 
 - [x] Task 1 — Establish automated quality harness and baseline (`729b394`; reviewed)
 - [x] Task 2 — Lock canonical architecture and split non-primary routes (`2503cc4`; reviewed)
 - [x] Task 3 — Centralize pitch content and evidence (`0960c0f`; controller-reviewed after reviewer usage-limit failure)
-- [ ] Task 4 — Build the exclusive, fallback-first scene runtime **← NEXT**
-- [ ] Task 5 — Define the deterministic Big Idea timeline
+- [x] Task 4 — Build the exclusive, fallback-first scene runtime (`7d8fb36`; controller-reviewed)
+- [ ] Task 5 — Define the deterministic Big Idea timeline **← NEXT**
 - [ ] Task 6 — Rebuild `BigIdeaScan` as a production scene
 - [ ] Task 7 — Build and integrate the Big Idea experience
 - [ ] Foundation Gate review

@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import { stagger, riseItem, fadeUp, drawX } from '../components/motion'
 import Reveal from '../components/Reveal'
 import BrandLogo from '../components/BrandLogo'
-import { bigIdeaContent } from '../content/pitch'
+import { bigIdeaContent, finalAsk } from '../content/pitch'
 
 const [fitThesisLead, fitThesisClose] = bigIdeaContent.thesis.split('—')
 
@@ -34,14 +34,14 @@ export default function S14CTA({ theme }) {
             </Reveal>
           </h1>
           <motion.p variants={fadeUp} className="mt-8 max-w-2xl text-body opacity-85">
-            {bigIdeaContent.explanation}
+            {finalAsk}
           </motion.p>
 
           <motion.div variants={fadeUp} className="mt-10 flex flex-wrap items-center gap-4">
             <span className="rounded-full bg-white px-7 py-3 font-display text-lg text-gap-navy">
               Let's build the brand that knows your fit.
             </span>
-            <span className="label opacity-70">Questions &amp; discussion to follow</span>
+            <span className="label opacity-70">Make fit Gap’s identity—not its weakness.</span>
           </motion.div>
         </div>
 

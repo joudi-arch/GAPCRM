@@ -2,24 +2,7 @@ import { motion } from 'framer-motion'
 import SlideFrame from '../components/SlideFrame'
 import Reveal from '../components/Reveal'
 import { riseItem, fadeUp, EASE } from '../components/motion'
-
-const phases = [
-  {
-    span: '0–3 months',
-    title: 'Build the foundation',
-    points: ['Invest in the customer-data platform + upgraded app', 'Launch the fit-profile tool'],
-  },
-  {
-    span: '3–9 months',
-    title: 'Personalise & reduce returns',
-    points: ['Roll out fit-based recommendations', 'Cut sizing returns with better fit accuracy'],
-  },
-  {
-    span: '9–18 months',
-    title: 'Build belonging',
-    points: ['Evolve into membership: early access to drops in your fit', 'Reward with exclusivity, not discounts'],
-  },
-]
+import { rolloutPhases } from '../content/pitch'
 
 const roles = [
   ['Data & CRM', 'Owns the fit profiles and the systems behind them'],
@@ -49,8 +32,8 @@ export default function S11Rollout({ theme, index, total }) {
           transition={{ duration: 0.9, ease: EASE, delay: 0.2 }}
         />
         <div className="grid grid-cols-3 gap-8">
-          {phases.map((p, i) => (
-            <motion.div key={p.span} variants={fadeUp} className="relative pt-10">
+          {rolloutPhases.map((p, i) => (
+            <motion.div key={p.months} variants={fadeUp} className="relative pt-10">
               <span
                 className="absolute left-0 top-0 grid h-7 w-7 -translate-y-[10px] place-items-center rounded-full font-mono text-xs"
                 style={{ background: theme.accent, color: theme.onAccent }}
@@ -58,17 +41,11 @@ export default function S11Rollout({ theme, index, total }) {
                 {i + 1}
               </span>
               <div className="label" style={{ color: theme.accent }}>
-                {p.span}
+                {p.months} months
               </div>
-              <h3 className="mt-2 font-display text-2xl">{p.title}</h3>
-              <ul className="mt-3 space-y-2">
-                {p.points.map((pt) => (
-                  <li key={pt} className="flex gap-2 text-[1rem] leading-snug text-muted">
-                    <span style={{ color: theme.accent }}>—</span>
-                    <span>{pt}</span>
-                  </li>
-                ))}
-              </ul>
+              <h3 className="mt-2 font-display text-2xl">{p.deliverable}</h3>
+              <p className="mt-2 text-sm uppercase tracking-wider" style={{ color: theme.accent }}>{p.owner}</p>
+              <p className="mt-2 text-[0.94rem] leading-snug text-muted">Decision gate — {p.gate}</p>
             </motion.div>
           ))}
         </div>

@@ -6,7 +6,7 @@ import Magnetic from '../Magnetic'
 import { worlds } from '../worlds'
 import { scrollToId } from '../useSmoothScroll'
 import { GapDenim } from '../three/scenes'
-import { bigIdeaContent, pitchSections } from '../../content/pitch'
+import { bigIdeaContent, finalAsk, pitchSections, rolloutPhases } from '../../content/pitch'
 import { team } from '../../deck.config'
 
 const gap = worlds.gap
@@ -210,7 +210,7 @@ export function Insight({ onActive }) {
       <Up delay={0.6}>
         <p className="font-grotesk mt-12 text-3xl font-bold" style={{ color: gap.ink }}>
           Gap's untapped signal is{' '}
-          <span style={{ backgroundImage: `linear-gradient(100deg, ${gap.grad[0]}, ${gap.grad[1]})`, backgroundClip: 'text', WebkitBackgroundClip: 'text', color: 'transparent' }}>
+          <span style={{ color: gap.accent }}>
             fit.
           </span>
         </p>
@@ -220,11 +220,6 @@ export function Insight({ onActive }) {
 }
 
 /* --------------------------------------------------------------- ROLLOUT */
-const PHASES = [
-  ['0–3', 'Build the foundation', 'Invest in the data platform + upgraded app. Launch the fit profile.'],
-  ['3–9', 'Personalise & cut returns', 'Roll out fit-based recommendations. Sizing returns fall.'],
-  ['9–18', 'Build belonging', 'Evolve into membership: early access to drops in your fit. Reward with exclusivity, not discounts.'],
-]
 export function Rollout({ onActive }) {
   return (
     <Section world={gap} id="rollout" onActive={onActive} watermark={<span className="font-extrabold">18</span>} watermarkClass="top-[6vh] right-[2vw] text-[40vw]">
@@ -233,13 +228,14 @@ export function Rollout({ onActive }) {
         <Kinetic text="From a tool to a habit to a membership" world={gap} accentIdx={[5]} />
       </h2>
       <div className="grid gap-6 md:grid-cols-3">
-        {PHASES.map(([span, title, body], i) => (
-          <Up key={span} delay={i * 0.12}>
-            <div className="font-hanken h-full rounded-2xl p-7" style={{ background: 'rgba(255,255,255,0.05)', border: `1px solid ${gap.accent}33` }}>
-              <div className="font-grotesk text-6xl font-extrabold" style={{ color: gap.accent }}>{span}</div>
+        {rolloutPhases.map((phase, i) => (
+          <Up key={phase.months} delay={i * 0.12}>
+            <div className="font-hanken h-full border-t-2 py-6" style={{ borderColor: gap.accent }}>
+              <div className="font-grotesk text-6xl font-extrabold" style={{ color: gap.accent }}>{phase.months}</div>
               <div className="font-hanken mt-1 text-[0.7rem] uppercase tracking-[0.25em]" style={{ color: gap.sub }}>months</div>
-              <h3 className="font-grotesk mt-5 text-2xl font-bold" style={{ color: gap.ink }}>{title}</h3>
-              <p className="font-hanken mt-3 text-[0.98rem] leading-relaxed" style={{ color: gap.sub }}>{body}</p>
+              <div className="font-hanken mt-5 text-[0.68rem] uppercase tracking-[0.2em]" style={{ color: gap.sub }}>{phase.owner}</div>
+              <h3 className="font-grotesk mt-2 text-2xl font-bold" style={{ color: gap.ink }}>{phase.deliverable}</h3>
+              <p className="font-hanken mt-3 text-[0.94rem] leading-relaxed" style={{ color: gap.sub }}><span style={{ color: gap.accent }}>Decision gate — </span>{phase.gate}</p>
             </div>
           </Up>
         ))}
@@ -266,7 +262,8 @@ export function KPIs({ onActive }) {
                 : <CountUp value={k.value} prefix={k.prefix} suffix={k.suffix} />}
             </div>
             <div className="font-hanken mt-3 text-sm leading-snug" style={{ color: gap.sub }}>
-              {k.label} · {k.horizon}
+              <span className="block text-[0.62rem] uppercase tracking-[0.18em]" style={{ color: gap.accent }}>Proposed target</span>
+              {k.label} · {k.value === null ? 'baseline in phase one' : k.horizon}
             </div>
           </Up>
         ))}
@@ -303,11 +300,14 @@ export function CTA({ onActive }) {
       <div className="font-hanken mb-6 flex items-center gap-4 text-[0.72rem] uppercase tracking-[0.35em]" style={{ color: 'rgba(255,255,255,0.8)' }}>
         <span className="inline-block h-px w-12 bg-white/70" /> The ask
       </div>
-      <h2 className="font-grotesk max-w-6xl font-extrabold uppercase leading-[0.86] tracking-[-0.035em] text-white" style={{ fontSize: 'clamp(2.8rem, 8vw, 8.5rem)' }}>
+      <h2 className="font-grotesk max-w-6xl font-extrabold uppercase leading-[0.86] tracking-[-0.035em] text-white" style={{ fontSize: 'clamp(2.8rem, 7vw, 6rem)' }}>
         <Kinetic text={`${fitThesisLead}—`} world={flood} />
         <Kinetic text={fitThesisClose} world={flood} accentIdx={[2]} />
       </h2>
-      <Up delay={0.4} className="mt-10 flex flex-wrap items-center gap-7">
+      <Up delay={0.4} className="mt-9 max-w-3xl">
+        <p className="font-hanken text-xl leading-relaxed text-white">{finalAsk}</p>
+      </Up>
+      <Up delay={0.5} className="mt-8 flex flex-wrap items-center gap-7">
         <Magnetic strength={0.5}>
           <button
             onClick={() => scrollToId('hero')}
@@ -317,7 +317,7 @@ export function CTA({ onActive }) {
             The brand that knows your fit ↑
           </button>
         </Magnetic>
-        <span className="font-hanken text-sm uppercase tracking-[0.2em] text-white/70">Questions &amp; discussion to follow</span>
+        <span className="font-hanken text-sm uppercase tracking-[0.2em] text-white/70">Make fit Gap’s identity—not its weakness.</span>
       </Up>
       <Up delay={0.5} className="mt-16 border-t border-white/20 pt-6">
         <div className="font-hanken flex flex-wrap items-center justify-between gap-4 text-white/80">

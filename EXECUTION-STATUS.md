@@ -1,6 +1,6 @@
 # Execution Status — Gap Shareholder Masterpiece
 
-Last updated: 2026-06-30, Europe/Zurich — after Task 7
+Last updated: 2026-06-30, Europe/Zurich — after Task 9
 
 ## Resume in one sentence
 
@@ -13,8 +13,8 @@ Continue the first unchecked task in `docs/superpowers/plans/2026-06-30-gap-shar
 - Baseline commit: `f93287b`
 - Master plan: `docs/superpowers/plans/2026-06-30-gap-shareholder-masterpiece.md`
 - Durable internal ledger: `.superpowers/sdd/progress.md`
-- Current task brief: generate `.superpowers/sdd/task-8-brief.md`
-- Current task report target: `.superpowers/sdd/task-8-report.md`
+- Current task brief: generate `.superpowers/sdd/task-10-brief.md`
+- Current task report target: `.superpowers/sdd/task-10-report.md`
 
 ## Current state
 
@@ -38,6 +38,8 @@ Continue the first unchecked task in `docs/superpowers/plans/2026-06-30-gap-shar
 - Terminal requirement: do not give a completion handoff until every brand slide and 3D model, all slide compositions, animations, transitions, fallbacks, routes, logos, and delivery outputs are production-ready and QA verified.
 - Task 6 completed at `33cb4a2`: deterministic scan scene, tailoring rings, owned-resource cleanup, relative-safe model URL, quality-aware bloom, focused 5/5, full 27/27, and build pass. Final model QA must confirm or replace the current Vanguard silhouette.
 - Task 7 completed: the Big Idea now runs as a pinned 240vh deterministic experience with one shared scene/UI progress value, semantic profile/recommendation/outcome stages, reduced-motion completeness, and corrected sticky-scroll architecture. Focused 12/12, full 28/28, build, and 1280×720 browser QA pass.
+- Task 8 completed at `c625aa4`: Harley now uses a sourced optimized motorcycle hero; Zara and Big Idea use an optimized neutral animated mannequin instead of the sci-fi soldier; Nike fell from 7.5 MB to about 0.5 MB; all scene asset URLs, cloning, cleanup, delta motion, shadowing, and deterministic handoff contracts are hardened. Browser QA confirmed finished Harley, Zara, and Big Idea compositions with one canvas.
+- Task 9 completed at `c0a5caa`: verified Gap, Zara, Uniqlo, Nike, and Harley-Davidson SVG assets replace approximations; sources are recorded; brand worlds gained distinct authored geometry/layout; gradient text and glass-card repetition were removed from benchmark sections.
 
 ## Task ledger
 
@@ -50,9 +52,9 @@ Continue the first unchecked task in `docs/superpowers/plans/2026-06-30-gap-shar
 - [x] Task 7 — Build and integrate the Big Idea experience
 - [x] Foundation Gate review (controller; worker allowance unavailable)
 - [x] Big Idea Gate review (controller; worker allowance unavailable)
-- [ ] Task 8 — Complete Phase 2 scenes and world handoff, including a finished motorcycle hero **← NEXT**
-- [ ] Task 9 — Install verified brand marks and build differentiated, authored slide compositions
-- [ ] Task 10 — Strengthen the shareholder narrative and ask
+- [x] Task 8 — Complete Phase 2 scenes and world handoff, including a finished motorcycle hero (`c625aa4`)
+- [x] Task 9 — Install verified brand marks and build differentiated, authored slide compositions (`c0a5caa`)
+- [ ] Task 10 — Strengthen the shareholder narrative and ask **← NEXT**
 - [ ] Shareholder Gate review
 - [ ] Task 11 — Complete accessibility, reduced motion, and responsive behavior
 - [ ] Task 12 — Make delivery fully offline and budgeted

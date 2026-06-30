@@ -24,6 +24,14 @@ export const presenters = Object.freeze({
   harley: 'Andreas Radicchi',
 })
 
+export const rolloutPhases = Object.freeze([
+  { months: '0–3', owner: 'Data + CRM', deliverable: 'Fit-profile foundation', gate: 'Profile data is complete enough to recommend confidently' },
+  { months: '3–9', owner: 'Product + Digital', deliverable: 'Fit-led recommendations', gate: 'Conversion improves while denim returns trend down' },
+  { months: '9–18', owner: 'Brand + Membership', deliverable: 'Fit-based access and rewards', gate: 'Repeat purchase and member value improve' },
+])
+
+export const finalAsk = 'Approve a 90-day fit-profile foundation phase led by Data + CRM, with Product + Digital, to establish the return-rate baseline and prove recommendation readiness.'
+
 export const pitchSections = Object.freeze([
   { id: 'hero', world: 'gap', claim: 'Gap becomes the brand that knows your fit.' },
   { id: 'gap-today', world: 'gap', claim: 'The infrastructure exists. The intimacy does not.', claims: ['gap-members', 'gap-fy24-comp'] },

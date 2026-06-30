@@ -1,6 +1,6 @@
 # Execution Status — Gap Shareholder Masterpiece
 
-Last updated: 2026-06-30, Europe/Zurich — after Task 4 implementation/review
+Last updated: 2026-06-30, Europe/Zurich — after Task 5
 
 ## Resume in one sentence
 
@@ -13,8 +13,8 @@ Continue the first unchecked task in `docs/superpowers/plans/2026-06-30-gap-shar
 - Baseline commit: `f93287b`
 - Master plan: `docs/superpowers/plans/2026-06-30-gap-shareholder-masterpiece.md`
 - Durable internal ledger: `.superpowers/sdd/progress.md`
-- Current task brief: generate `.superpowers/sdd/task-5-brief.md`
-- Current task report target: `.superpowers/sdd/task-5-report.md`
+- Current task brief: generate `.superpowers/sdd/task-6-brief.md`
+- Current task report target: `.superpowers/sdd/task-6-report.md`
 
 ## Current state
 
@@ -34,6 +34,8 @@ Continue the first unchecked task in `docs/superpowers/plans/2026-06-30-gap-shar
 - User priority override: finish all 3D first; Harley must use a recognizable optimized motorcycle model, not the current box/light blockout. Then install verified official Gap, Zara, Uniqlo, Nike, and Harley-Davidson SVG marks. Then differentiate the remaining slide compositions.
 - Task 4 completed at `7d8fb36`: exclusive scene ownership, fallback-first rendering, static capability gates, scene/context error downgrade, frame-health downgrade, and Nike-only pointer routing are implemented. Focused 3/3 tests, full 13/13 tests, and production build pass.
 - Independent Task 4 review was unavailable because subagent usage was exhausted; controller self-review is recorded in `.superpowers/sdd/task-4-report.md`.
+- Task 5 completed at `db8bfbe`: deterministic Big Idea phases and boundary tests are implemented; focused 11/11, full 24/24, and build pass.
+- Terminal requirement: do not give a completion handoff until every brand slide and 3D model, all slide compositions, animations, transitions, fallbacks, routes, logos, and delivery outputs are production-ready and QA verified.
 
 ## Task ledger
 
@@ -41,8 +43,8 @@ Continue the first unchecked task in `docs/superpowers/plans/2026-06-30-gap-shar
 - [x] Task 2 — Lock canonical architecture and split non-primary routes (`2503cc4`; reviewed)
 - [x] Task 3 — Centralize pitch content and evidence (`0960c0f`; controller-reviewed after reviewer usage-limit failure)
 - [x] Task 4 — Build the exclusive, fallback-first scene runtime (`7d8fb36`; controller-reviewed)
-- [ ] Task 5 — Define the deterministic Big Idea timeline **← NEXT**
-- [ ] Task 6 — Rebuild `BigIdeaScan` as a production scene
+- [x] Task 5 — Define the deterministic Big Idea timeline (`db8bfbe`; controller-reviewed)
+- [ ] Task 6 — Rebuild `BigIdeaScan` as a production scene **← NEXT**
 - [ ] Task 7 — Build and integrate the Big Idea experience
 - [ ] Foundation Gate review
 - [ ] Big Idea Gate review

@@ -25,7 +25,6 @@ export default function BrandWorld({
   scene = null,
   sceneCamera,
   splineScene = null,
-  splineStyle,
 }) {
   const reversed = world.key === 'uniqlo'
 
@@ -38,7 +37,6 @@ export default function BrandWorld({
       scene={splineScene ? null : scene}
       sceneCamera={splineScene ? null : sceneCamera}
       splineScene={splineScene}
-      splineStyle={splineStyle}
       watermark={<span className="font-extrabold uppercase">{world.name.split('-')[0]}</span>}
       watermarkClass="bottom-[-6vh] right-[-2vw] text-[34vw]"
     >
@@ -48,6 +46,7 @@ export default function BrandWorld({
           {[0, 1, 2, 3].map((cell) => <span key={cell} className="h-[11vw] max-h-32 w-[11vw] max-w-32 border-2 border-white" />)}
         </div>
       )}
+      {world.key === 'nike' && <div aria-hidden className="absolute -right-[8vw] top-[18vh] h-5 w-[58vw] -rotate-12 bg-[#CEFF00] opacity-80" />}
       {world.key === 'harley' && <div aria-hidden className="absolute inset-x-0 top-[48%] h-px bg-gradient-to-r from-transparent via-[#F47216]/70 to-transparent" />}
 
       <div className="relative grid grid-cols-12 items-center gap-8">

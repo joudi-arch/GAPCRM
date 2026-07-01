@@ -62,7 +62,6 @@ export function NikeWorld({ onActive }) {
       lesson="Anchor a lifestyle, not a promotional calendar. Give customers a reason to engage between purchases."
       logoColor={worlds.nike.accent}
       splineScene={NIKE_SPLINE_SCENE}
-      splineStyle={{ transform: 'translate(36%, 2%) scale(0.58)', transformOrigin: 'center center' }}
     />
   )
 }

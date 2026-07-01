@@ -27,7 +27,8 @@ export default function MotorcycleModel({ groupRef }) {
   useEffect(() => () => materials.forEach((material) => material.dispose()), [materials])
 
   return (
-    <group ref={groupRef} scale={0.34} rotation={[0.02, -0.34, 0]}>
+    // +π on Y so the bike faces its direction of travel (rides in forwards).
+    <group ref={groupRef} scale={0.34} rotation={[0.02, Math.PI - 0.34, 0]}>
       <Center><primitive object={clone} /></Center>
     </group>
   )

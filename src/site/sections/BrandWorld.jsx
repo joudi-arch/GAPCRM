@@ -24,6 +24,7 @@ export default function BrandWorld({
   logoColor,
   scene = null,
   sceneCamera,
+  splineScene = null,
 }) {
   const reversed = world.key === 'uniqlo'
 
@@ -33,8 +34,9 @@ export default function BrandWorld({
       id={world.name.split('-')[0].toLowerCase()}
       onActive={onActive}
       flood
-      scene={scene}
-      sceneCamera={sceneCamera}
+      scene={splineScene ? null : scene}
+      sceneCamera={splineScene ? null : sceneCamera}
+      splineScene={splineScene}
       watermark={<span className="font-extrabold uppercase">{world.name.split('-')[0]}</span>}
       watermarkClass="bottom-[-6vh] right-[-2vw] text-[34vw]"
     >

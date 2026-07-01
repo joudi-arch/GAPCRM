@@ -1,11 +1,11 @@
 import { useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 
-const WARMUP_SECONDS = 1
-const SAMPLE_SECONDS = 2
-const MINIMUM_FPS = 42
+const WARMUP_SECONDS = 4
+const SAMPLE_SECONDS = 4
+const MINIMUM_FPS = 14
 
-export default function FrameHealthProbe({ onLowFps }) {
+export default function FrameHealthProbe({ onLowFps, sceneId }) {
   const sample = useRef({ elapsed: 0, frames: 0, complete: false })
 
   useFrame((_, delta) => {
@@ -21,7 +21,12 @@ export default function FrameHealthProbe({ onLowFps }) {
 
     current.complete = true
     const fps = current.frames / sampledFor
-    if (fps < MINIMUM_FPS) onLowFps?.(fps)
+    if (fps < MINIMUM_FPS) {
+      console.log(`[FrameHealthProbe] scene="${sceneId}" measured ${fps.toFixed(1)} FPS (threshold: ${MINIMUM_FPS}) — downgrading to poster`)
+      onLowFps?.(fps, sceneId)
+    } else {
+      console.log(`[FrameHealthProbe] scene="${sceneId}" measured ${fps.toFixed(1)} FPS — keeping live 3D`)
+    }
   })
 
   return null

@@ -2,6 +2,7 @@ import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import MeshGradient from './MeshGradient'
 import SceneStage from './three/SceneStage'
+import SplineStage from './three/SplineStage'
 import { getSceneConfig } from './three/sceneRegistry'
 
 // A full-viewport brand-world section. Paints the world (mesh gradient + grain),
@@ -20,6 +21,7 @@ export default function Section({
   contentClass = '',
   parallax = true,
   scene = null,
+  splineScene = null,
   sceneId,
   sceneCamera,
   sceneOverlay,
@@ -53,7 +55,7 @@ export default function Section({
       </motion.div>
 
       {/* optional 3D brand-world scene (behind content, in-view-only) */}
-      {scene && (
+      {scene && !splineScene && (
         <SceneStage
           sceneId={sceneConfig?.id || sceneId || id}
           camera={sceneCamera || sceneConfig?.camera}
@@ -64,6 +66,9 @@ export default function Section({
           {sceneNode}
         </SceneStage>
       )}
+
+      {/* optional Spline scene (renders its own canvas, no R3F) */}
+      {splineScene && <SplineStage scene={splineScene} />}
 
       {/* world-flood curtain: a panel that wipes away as the world enters */}
       {flood && (
@@ -80,7 +85,7 @@ export default function Section({
 
       <motion.div
         style={{ y: parallax ? contentY : 0 }}
-        className={`relative z-10 mx-auto w-full max-w-[1400px] px-[6vw] ${contentClass}`}
+        className={`relative z-10 mx-auto w-full max-w-[1400px] px-[6vw] ${splineScene ? 'pointer-events-none' : ''} ${contentClass}`}
       >
         {children}
       </motion.div>

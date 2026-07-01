@@ -172,9 +172,11 @@ body {
   .brandworld > div:last-child { padding-top: 3rem; padding-bottom: 2rem; }
 }
 
-/* Snap container — proximity is gentler alongside Lenis smooth scroll */
-.snap-y { scroll-snap-type: y proximity; }
-.snap-section { scroll-snap-align: start; }
+/* Section rhythm is driven by Lenis smooth scroll + arrow-key glides (see
+   SiteScroll). CSS scroll-snap is intentionally OFF: proximity snapping fights
+   Lenis and the sticky story runways, which read as "jumpy" scrolling. */
+.snap-y { scroll-snap-type: none; }
+.snap-section { scroll-margin-top: 0; }
 /* When the scroll site is mounted, let the document scroll */
 /* Keep `body` out of the scroll-container chain so sticky story runways work.
    `clip` prevents horizontal spill without establishing the overflow ancestor

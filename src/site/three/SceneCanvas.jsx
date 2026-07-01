@@ -23,7 +23,7 @@ function ContextLossGuard({ onContextLoss }) {
 
 // Isolated so it (and all of three.js/fiber) lives in a lazy chunk — the 2D
 // site loads with no 3D weight; this loads only when a scene first comes in view.
-export default function SceneCanvas({ children, camera, onReady, onDowngrade }) {
+export default function SceneCanvas({ children, camera, onReady, onDowngrade, sceneId }) {
   return (
     <Canvas
       shadows
@@ -33,7 +33,7 @@ export default function SceneCanvas({ children, camera, onReady, onDowngrade }) 
       style={{ background: 'transparent' }}
     >
       <ContextLossGuard onContextLoss={() => onDowngrade?.('context-loss')} />
-      <FrameHealthProbe onLowFps={() => onDowngrade?.('low-fps')} />
+      <FrameHealthProbe sceneId={sceneId} onLowFps={(fps) => onDowngrade?.('low-fps', fps)} />
       <Suspense fallback={null}>
         {children}
         <ReadySignal onReady={onReady} />

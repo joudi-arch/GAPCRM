@@ -29,11 +29,12 @@ describe('SceneRuntime', () => {
     expect(result.current.activeSceneId).toBeNull()
   })
 
-  it('persists a downgrade reason for the session', () => {
+  it('persists a per-scene downgrade reason for the session', () => {
     const wrapper = ({ children }) => <SceneRuntimeProvider>{children}</SceneRuntimeProvider>
     const { result } = renderHook(() => useSceneRuntime(), { wrapper })
-    act(() => result.current.requestDowngrade('low-fps'))
-    expect(result.current.mode).toBe('poster')
+    act(() => result.current.requestDowngrade('harley', 'low-fps'))
+    expect(result.current.getMode('harley')).toBe('poster')
+    expect(result.current.getMode('zara')).toBe('live')
     expect(sessionStorage.getItem('gap-pitch-3d-mode')).toBe('poster:low-fps')
   })
 })

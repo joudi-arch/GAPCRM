@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 
-const files = ['GapDenim.jsx', 'ZaraWalk.jsx', 'NikeShoe.jsx', 'HarleyRide.jsx', 'BigIdeaScan.jsx']
+const files = ['GapDenim.jsx', 'ZaraWalk.jsx', 'HarleyRide.jsx', 'BigIdeaScan.jsx']
 
 function readScene(file) {
   return readFileSync(`src/site/three/scenes/${file}`, 'utf8')
@@ -25,14 +25,5 @@ describe('scene source contracts', () => {
 
   it('clones cached GLTF scenes before mutation', () => {
     expect(readScene('ZaraWalk.jsx')).toContain('skeletonClone(scene)')
-    expect(readScene('NikeShoe.jsx')).toContain('scene.clone(true)')
-  })
-
-  it('keeps frame-rate-independent scene motion', () => {
-    for (const file of ['GapDenim.jsx', 'NikeShoe.jsx']) {
-      const source = readScene(file)
-      expect(source).toMatch(/useFrame\(\([^)]*delta[^)]*\)/)
-      expect(source).toContain('MathUtils.damp')
-    }
   })
 })

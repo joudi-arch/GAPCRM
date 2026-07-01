@@ -12,12 +12,12 @@ const gap = worlds.gap
 export default function BigIdeaExperience({ onActive }) {
   const runwayRef = useRef(null)
   const reducedMotion = useReducedMotion()
-  const { mode } = useSceneRuntime()
+  const { getMode } = useSceneRuntime()
   const { scrollYProgress } = useScroll({
     target: runwayRef,
     offset: ['start start', 'end end'],
   })
-  const staticMode = reducedMotion || mode === 'poster'
+  const staticMode = reducedMotion || getMode('big-idea') === 'poster'
   const progress = staticMode ? FINAL_PROGRESS : scrollYProgress
 
   return (

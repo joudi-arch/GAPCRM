@@ -3,6 +3,7 @@ import Section from '../Section'
 import Kinetic from '../Kinetic'
 import CountUp from '../CountUp'
 import Magnetic from '../Magnetic'
+import BrandLogo from '../../components/BrandLogo'
 import { worlds } from '../worlds'
 import { scrollToId } from '../useSmoothScroll'
 import { GapDenim } from '../three/scenes'
@@ -45,6 +46,9 @@ export function Hero({ onActive }) {
       watermark={<span className="font-extrabold">GAP</span>}
       watermarkClass="top-[8vh] right-[-4vw] text-[42vw]"
     >
+      <Up className="mb-8">
+        <BrandLogo brand="gap" height={48} />
+      </Up>
       {eyebrow('The Pitch · Brand X')}
       <h1
         className="font-grotesk font-extrabold uppercase leading-[0.86] tracking-[-0.04em]"

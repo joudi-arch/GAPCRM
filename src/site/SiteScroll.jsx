@@ -8,7 +8,6 @@ import { ZaraWorld, UniqloWorld, NikeWorld, HarleyWorld } from './sections/Bench
 import BigIdeaExperience from './sections/BigIdeaExperience'
 import { PerfProvider } from './three/usePerfGuard'
 import { SceneRuntimeProvider } from './three/SceneRuntime'
-import SoundToggle from './SoundToggle'
 
 export default function SiteScroll() {
   useSmoothScroll(true)
@@ -27,6 +26,89 @@ export default function SiteScroll() {
   useEffect(() => {
     document.body.style.background = world.base
   }, [world])
+
+  // Arrow keys are the primary controller: buttery glides between section
+  // "stops". Tall pinned sections (the Big Idea) get per-viewport beats so the
+  // presenter can step through their internal timeline.
+  useEffect(() => {
+    const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3)
+
+    const stops = () => {
+      const secs = Array.from(document.querySelectorAll('#pitch-content section[id]')).sort(
+        (a, b) => a.offsetTop - b.offsetTop
+      )
+      const vh = window.innerHeight
+      const ys = []
+      secs.forEach((s) => {
+        ys.push(s.offsetTop)
+        if (s.offsetHeight > vh * 1.5) {
+          const beats = Math.floor(s.offsetHeight / vh)
+          for (let b = 1; b < beats; b++) ys.push(Math.round(s.offsetTop + b * vh * 0.92))
+        }
+      })
+      ys.sort((a, b) => a - b)
+      return ys.filter((y, i) => i === 0 || y - ys[i - 1] > 12)
+    }
+
+    const glideTo = (y) => {
+      if (window.__lenis) {
+        window.__lenis.scrollTo(y, { duration: 1.1, easing: easeOutCubic, lock: true })
+      } else {
+        window.scrollTo({ top: y, behavior: 'smooth' })
+      }
+    }
+
+    const step = (dir) => {
+      const ys = stops()
+      if (!ys.length) return
+      const mark = window.scrollY + 6
+      let idx = 0
+      ys.forEach((y, i) => {
+        if (y <= mark) idx = i
+      })
+      glideTo(ys[Math.max(0, Math.min(ys.length - 1, idx + dir))])
+    }
+
+    const onKey = (e) => {
+      const el = document.activeElement
+      const tag = (el?.tagName || '').toUpperCase()
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || el?.isContentEditable) return
+      switch (e.key) {
+        case 'ArrowDown':
+        case 'ArrowRight':
+        case 'PageDown':
+          e.preventDefault()
+          step(1)
+          break
+        case ' ':
+          if (tag === 'BUTTON' || tag === 'A') return
+          e.preventDefault()
+          step(1)
+          break
+        case 'ArrowUp':
+        case 'ArrowLeft':
+        case 'PageUp':
+          e.preventDefault()
+          step(-1)
+          break
+        case 'Home':
+          e.preventDefault()
+          glideTo(0)
+          break
+        case 'End': {
+          e.preventDefault()
+          const ys = stops()
+          glideTo(ys[ys.length - 1])
+          break
+        }
+        default:
+          break
+      }
+    }
+
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
 
   return (
     <MotionConfig reducedMotion="user">
@@ -59,8 +141,6 @@ export default function SiteScroll() {
             <span className="inline-block h-2 w-2 rounded-full" style={{ background: world.accent }} />
             {world.name}
           </div>
-
-          <SoundToggle world={active} accent={world.accent} />
 
           <main id="pitch-content" className="relative">
             <Hero onActive={setActive} />

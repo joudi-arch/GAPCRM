@@ -1,6 +1,6 @@
 import BrandWorld from './BrandWorld'
 import { worlds } from '../worlds'
-import { NikeShoe, ZaraWalk, HarleyRide } from '../three/scenes'
+import { ZaraWalk, HarleyRide, NIKE_SPLINE_SCENE } from '../three/scenes'
 import { pitchSections, presenters } from '../../content/pitch'
 
 const benchmarkById = Object.fromEntries(
@@ -61,8 +61,7 @@ export function NikeWorld({ onActive }) {
       proof2={benchmarkById.nike.proof2}
       lesson="Anchor a lifestyle, not a promotional calendar. Give customers a reason to engage between purchases."
       logoColor={worlds.nike.accent}
-      scene={<NikeShoe />}
-      sceneCamera={{ position: [0, 0, 6], fov: 42 }}
+      splineScene={NIKE_SPLINE_SCENE}
     />
   )
 }

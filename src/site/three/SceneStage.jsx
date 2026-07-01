@@ -20,10 +20,10 @@ export default function SceneStage({
   overlay, // optional custom legibility gradient (CSS string)
   className = '',
 }) {
-  const { activeSceneId, registerVisibility, requestDowngrade, mode } = useSceneRuntime()
+  const { activeSceneId, registerVisibility, requestDowngrade, getMode } = useSceneRuntime()
   const { ref, ratio } = useInViewport({ rootMargin: '15% 0px', amount: 0.15 })
   const [sceneReady, setSceneReady] = useState(false)
-  const show = mode === 'live' && activeSceneId === sceneId
+  const show = getMode(sceneId) === 'live' && activeSceneId === sceneId
 
   useEffect(() => {
     registerVisibility(sceneId, ratio)
@@ -35,7 +35,10 @@ export default function SceneStage({
     if (!show) setSceneReady(false)
   }, [show])
 
-  const handleDowngrade = useCallback((reason) => requestDowngrade(reason), [requestDowngrade])
+  const handleDowngrade = useCallback(
+    (reason) => requestDowngrade(sceneId, reason),
+    [sceneId, requestDowngrade],
+  )
 
   return (
     <div ref={ref} className={`pointer-events-none absolute inset-0 z-0 ${className}`} aria-hidden>
@@ -48,6 +51,7 @@ export default function SceneStage({
           >
             <Suspense fallback={null}>
               <SceneCanvas
+                sceneId={sceneId}
                 camera={camera}
                 onReady={() => setSceneReady(true)}
                 onDowngrade={handleDowngrade}

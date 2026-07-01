@@ -8,6 +8,12 @@ import { ZaraWorld, UniqloWorld, NikeWorld, HarleyWorld } from './sections/Bench
 import BigIdeaExperience from './sections/BigIdeaExperience'
 import { PerfProvider } from './three/usePerfGuard'
 import { SceneRuntimeProvider } from './three/SceneRuntime'
+import {
+  bigIdeaNext,
+  bigIdeaPrev,
+  bigIdeaResetToStart,
+  bigIdeaResetToEnd,
+} from './three/bigIdeaNav'
 
 export default function SiteScroll() {
   useSmoothScroll(true)
@@ -27,46 +33,56 @@ export default function SiteScroll() {
     document.body.style.background = world.base
   }, [world])
 
-  // Arrow keys are the primary controller: buttery glides between section
-  // "stops". Tall pinned sections (the Big Idea) get per-viewport beats so the
-  // presenter can step through their internal timeline.
+  // Arrow keys are the primary controller: one press = one clean glide that
+  // lands exactly on the next/previous section. The "recommendation" slide owns
+  // its own internal beats (scan → copy → copy…), so while the presenter is on
+  // it, presses drive that timeline before handing off to the next slide.
   useEffect(() => {
     const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3)
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-    const stops = () => {
-      const secs = Array.from(document.querySelectorAll('#pitch-content section[id]')).sort(
-        (a, b) => a.offsetTop - b.offsetTop
-      )
-      const vh = window.innerHeight
-      const ys = []
-      secs.forEach((s) => {
-        ys.push(s.offsetTop)
-        if (s.offsetHeight > vh * 1.5) {
-          const beats = Math.floor(s.offsetHeight / vh)
-          for (let b = 1; b < beats; b++) ys.push(Math.round(s.offsetTop + b * vh * 0.92))
-        }
+    // Absolute top of every section, robust to differing offset parents.
+    const sections = () =>
+      Array.from(document.querySelectorAll('#pitch-content section[id]'))
+        .map((el) => ({ id: el.id, top: el.getBoundingClientRect().top + window.scrollY }))
+        .sort((a, b) => a.top - b.top)
+
+    const currentIndex = (list) => {
+      const mark = window.scrollY + window.innerHeight * 0.45
+      let idx = 0
+      list.forEach((s, i) => {
+        if (s.top <= mark) idx = i
       })
-      ys.sort((a, b) => a - b)
-      return ys.filter((y, i) => i === 0 || y - ys[i - 1] > 12)
+      return idx
     }
 
     const glideTo = (y) => {
       if (window.__lenis) {
-        window.__lenis.scrollTo(y, { duration: 1.1, easing: easeOutCubic, lock: true })
+        window.__lenis.scrollTo(y, { duration: 1.15, easing: easeOutCubic, lock: true })
       } else {
         window.scrollTo({ top: y, behavior: 'smooth' })
       }
     }
 
     const step = (dir) => {
-      const ys = stops()
-      if (!ys.length) return
-      const mark = window.scrollY + 6
-      let idx = 0
-      ys.forEach((y, i) => {
-        if (y <= mark) idx = i
-      })
-      glideTo(ys[Math.max(0, Math.min(ys.length - 1, idx + dir))])
+      const list = sections()
+      if (!list.length) return
+      const idx = currentIndex(list)
+      const here = list[idx]
+
+      // On the recommendation slide, spend key presses on its internal beats
+      // first; only hand off to a neighbour once its timeline is exhausted.
+      if (here.id === 'big-idea' && !prefersReduced) {
+        if (dir > 0 ? bigIdeaNext() : bigIdeaPrev()) return
+      }
+
+      const target = list[Math.max(0, Math.min(list.length - 1, idx + dir))]
+      // Prime the slide's internal timeline for the direction we arrive from.
+      if (target.id === 'big-idea' && target.id !== here.id && !prefersReduced) {
+        if (dir > 0) bigIdeaResetToStart()
+        else bigIdeaResetToEnd()
+      }
+      glideTo(target.top)
     }
 
     const onKey = (e) => {
@@ -97,8 +113,8 @@ export default function SiteScroll() {
           break
         case 'End': {
           e.preventDefault()
-          const ys = stops()
-          glideTo(ys[ys.length - 1])
+          const list = sections()
+          if (list.length) glideTo(list[list.length - 1].top)
           break
         }
         default:

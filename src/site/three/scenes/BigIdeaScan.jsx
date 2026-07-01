@@ -18,11 +18,11 @@ function FitFigure({ progress }) {
   const { scene, animations } = useGLTF(BIG_IDEA_MODEL_URL)
   const cloned = useMemo(() => skeletonClone(scene), [scene])
   const bodyMaterial = useMemo(() => new THREE.MeshStandardMaterial({
-    color: '#0B1F42',
-    emissive: '#163C88',
-    emissiveIntensity: 0.18,
-    roughness: 0.56,
-    metalness: 0.08,
+    color: '#2C4C86',
+    emissive: '#1E4AA0',
+    emissiveIntensity: 0.34,
+    roughness: 0.44,
+    metalness: 0.14,
   }), [])
   const { actions, names } = useAnimations(animations, group)
 
@@ -48,7 +48,7 @@ function FitFigure({ progress }) {
     const state = getBigIdeaState(progress.get())
     bodyMaterial.emissiveIntensity = THREE.MathUtils.damp(
       bodyMaterial.emissiveIntensity,
-      THREE.MathUtils.lerp(0.18, 0.56, state.profile),
+      THREE.MathUtils.lerp(0.34, 0.7, state.profile),
       10,
       delta,
     )
@@ -144,11 +144,13 @@ function Platform() {
 export default function BigIdeaScan({ progress = STATIC_PROGRESS, quality = 'high' }) {
   return (
     <>
-      <fog attach="fog" args={['#05070D', 7, 16]} />
-      <ambientLight intensity={0.28} />
-      <spotLight position={[3.8, 4.5, 4]} angle={0.42} penumbra={0.9} color="#DCEBFF" intensity={5.5} castShadow />
+      <fog attach="fog" args={['#05070D', 8, 18]} />
+      <ambientLight intensity={0.42} />
+      <spotLight position={[3.8, 4.5, 4]} angle={0.42} penumbra={0.9} color="#DCEBFF" intensity={7} castShadow />
       <pointLight position={[-3, 0.5, -2]} color="#1E3A8A" intensity={7} distance={16} />
       <pointLight position={[2.7, -0.5, 2]} color="#5B8DEF" intensity={4} distance={10} />
+      {/* cool rim light behind the figure so it separates from the flat backdrop */}
+      <pointLight position={[3.6, 1.4, -2.6]} color="#9CC4FF" intensity={6} distance={12} />
       <FitFigure progress={progress} />
       <Scanner progress={progress} />
       <Platform />

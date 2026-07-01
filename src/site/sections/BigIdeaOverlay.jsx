@@ -27,11 +27,11 @@ export default function BigIdeaOverlay({ progress, reducedMotion = false }) {
         Make fit Gap’s identity—<span style={{ color: gap.accent }}>not its weakness.</span>
       </h2>
 
-      <p className="font-hanken mt-6 max-w-[52ch] text-pretty text-lg leading-relaxed" style={{ color: gap.sub }}>
+      <p className="font-hanken mt-6 max-w-[46ch] text-pretty text-xl leading-relaxed" style={{ color: gap.sub }}>
         {bigIdeaContent.explanation}
       </p>
 
-      <div className={`mt-10 min-h-[12rem] max-w-[38rem] ${reducedMotion ? 'grid gap-8' : 'relative'}`}>
+      <div className={`mt-10 min-h-[12rem] max-w-[34rem] ${reducedMotion ? 'grid gap-8' : 'relative'}`}>
         <motion.dl
           aria-label="Example fit profile"
           className={reducedMotion ? '' : 'absolute inset-x-0 top-0'}
@@ -44,8 +44,8 @@ export default function BigIdeaOverlay({ progress, reducedMotion = false }) {
           <div className="grid grid-cols-2 gap-x-8">
             {bigIdeaContent.profile.map(([label, value]) => (
               <div key={label} className="font-hanken flex items-baseline justify-between gap-4 border-b border-white/10 py-2.5">
-                <dt className="text-sm" style={{ color: gap.sub }}>{label}</dt>
-                <dd className="font-grotesk font-bold" style={{ color: gap.ink }}>{value}</dd>
+                <dt className="text-base" style={{ color: gap.sub }}>{label}</dt>
+                <dd className="font-grotesk text-lg font-bold" style={{ color: gap.ink }}>{value}</dd>
               </div>
             ))}
           </div>
@@ -61,8 +61,8 @@ export default function BigIdeaOverlay({ progress, reducedMotion = false }) {
           <ol aria-label="Fit recommendations">
             {bigIdeaContent.recommendations.map((recommendation) => (
               <li key={recommendation.name} className="grid grid-cols-[1fr_auto] items-center gap-x-5 border-b border-white/10 py-3">
-                <span className="font-grotesk text-lg font-bold" style={{ color: gap.ink }}>{recommendation.name}</span>
-                <span className="font-hanken font-semibold tabular-nums" style={{ color: gap.accent }}>{recommendation.match}%</span>
+                <span className="font-grotesk text-xl font-bold" style={{ color: gap.ink }}>{recommendation.name}</span>
+                <span className="font-hanken text-lg font-semibold tabular-nums" style={{ color: gap.accent }}>{recommendation.match}%</span>
                 <span className="col-span-2 mt-2 h-px origin-left bg-white/15">
                   <span className="block h-px" style={{ width: `${recommendation.match}%`, background: gap.accent }} />
                 </span>

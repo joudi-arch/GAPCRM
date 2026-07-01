@@ -58,7 +58,7 @@ export function Hero({ onActive }) {
         <Kinetic text="the brand that" world={gap} />
         <Kinetic text="knows your fit" world={gap} accentIdx={[2]} />
       </h1>
-      <Up delay={0.5} className="font-hanken mt-8 max-w-xl text-lg leading-relaxed" >
+      <Up delay={0.5} className="font-hanken mt-8 max-w-xl text-xl leading-relaxed" >
         <span style={{ color: gap.sub }}>
           From discount-driven acquisition to a fit-led loyalty relationship that compounds customer
           lifetime value.
@@ -79,7 +79,7 @@ export function Hero({ onActive }) {
           <span className="font-grotesk text-5xl font-extrabold" style={{ color: gap.ink }}>
             <CountUp value={40} suffix="M" duration={1.8} />
           </span>
-          <span className="font-hanken max-w-[12rem] text-sm leading-tight" style={{ color: gap.sub }}>
+          <span className="font-hanken max-w-[12rem] text-base leading-tight" style={{ color: gap.sub }}>
             members — one signal they're all missing
           </span>
         </div>
@@ -102,7 +102,7 @@ export function GapToday({ onActive }) {
           <div className="font-grotesk font-extrabold leading-none" style={{ fontSize: 'clamp(3.5rem,9vw,8rem)', color: gap.accent }}>
             <CountUp value={40} suffix="M" />
           </div>
-          <div className="font-hanken mt-2 max-w-[15rem] text-sm" style={{ color: gap.sub }}>
+          <div className="font-hanken mt-2 max-w-[15rem] text-base" style={{ color: gap.sub }}>
             Good Rewards members across four brands, one membership
           </div>
         </Up>
@@ -110,12 +110,12 @@ export function GapToday({ onActive }) {
           <div className="font-grotesk font-extrabold leading-none" style={{ fontSize: 'clamp(3.5rem,9vw,8rem)', color: gap.ink }}>
             <CountUp value={4} prefix="+" suffix="%" />
           </div>
-          <div className="font-hanken mt-2 max-w-[15rem] text-sm" style={{ color: gap.sub }}>
+          <div className="font-hanken mt-2 max-w-[15rem] text-base" style={{ color: gap.sub }}>
             comparable sales growth in FY2024 — a real recovery to build on
           </div>
         </Up>
         <Up delay={0.2} className="max-w-sm">
-          <p className="font-hanken text-lg leading-relaxed" style={{ color: gap.sub }}>
+          <p className="font-hanken text-xl leading-relaxed" style={{ color: gap.sub }}>
             The foundation is here. What's missing is a relationship that runs deeper than the next
             promotion.
           </p>
@@ -135,12 +135,12 @@ export function Problem({ onActive }) {
         <Kinetic text="with discounts" world={gap} accentIdx={[2]} />
       </h2>
       <Up delay={0.4} className="mt-10 grid max-w-5xl gap-x-16 gap-y-6 md:grid-cols-2">
-        <p className="font-hanken text-lg leading-relaxed" style={{ color: gap.sub }}>
+        <p className="font-hanken text-xl leading-relaxed" style={{ color: gap.sub }}>
           Gap Cash campaigns condition customers to buy <span style={{ color: gap.ink }}>only on
           discount</span>. The value exchange runs one way — price out, revenue in, no relationship
           built.
         </p>
-        <p className="font-hanken text-lg leading-relaxed" style={{ color: gap.sub }}>
+        <p className="font-hanken text-xl leading-relaxed" style={{ color: gap.sub }}>
           It's a fragile, price-driven segment: retention depends on the next promotion, not genuine
           preference. The brand is stuck in the <span style={{ color: gap.ink }}>acquisition stage</span>.
         </p>
@@ -239,7 +239,7 @@ export function Rollout({ onActive }) {
               <div className="font-hanken mt-1 text-[0.7rem] uppercase tracking-[0.25em]" style={{ color: gap.sub }}>months</div>
               <div className="font-hanken mt-5 text-[0.68rem] uppercase tracking-[0.2em]" style={{ color: gap.sub }}>{phase.owner}</div>
               <h3 className="font-grotesk mt-2 text-2xl font-bold" style={{ color: gap.ink }}>{phase.deliverable}</h3>
-              <p className="font-hanken mt-3 text-[0.94rem] leading-relaxed" style={{ color: gap.sub }}><span style={{ color: gap.accent }}>Decision gate — </span>{phase.gate}</p>
+              <p className="font-hanken mt-3 text-[1.02rem] leading-relaxed" style={{ color: gap.sub }}><span style={{ color: gap.accent }}>Decision gate — </span>{phase.gate}</p>
             </div>
           </Up>
         ))}
@@ -286,7 +286,7 @@ export function WhyNow({ onActive }) {
         <Kinetic text="It's the next chapter of Encore" world={gap} accentIdx={[5]} />
       </h2>
       <Up delay={0.4} className="mt-10 max-w-2xl">
-        <p className="font-hanken text-lg leading-relaxed" style={{ color: gap.sub }}>
+        <p className="font-hanken text-xl leading-relaxed" style={{ color: gap.sub }}>
           In <span style={{ color: gap.ink }}>February 2026</span>, Gap Inc. launched Encore — a new,
           more rewarding loyalty experience. The platform already exists. Fit is the engine that makes
           it personal — turning a rewards programme into a relationship.

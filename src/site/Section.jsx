@@ -22,6 +22,7 @@ export default function Section({
   parallax = true,
   scene = null,
   splineScene = null,
+  splineStyle,
   sceneId,
   sceneCamera,
   sceneOverlay,
@@ -68,7 +69,7 @@ export default function Section({
       )}
 
       {/* optional Spline scene (renders its own canvas, no R3F) */}
-      {splineScene && <SplineStage scene={splineScene} />}
+      {splineScene && <SplineStage scene={splineScene} sceneId={sceneId || id} innerStyle={splineStyle} />}
 
       {/* world-flood curtain: a panel that wipes away as the world enters */}
       {flood && (

@@ -25,6 +25,7 @@ export default function BrandWorld({
   scene = null,
   sceneCamera,
   splineScene = null,
+  splineStyle,
 }) {
   const reversed = world.key === 'uniqlo'
 
@@ -37,6 +38,7 @@ export default function BrandWorld({
       scene={splineScene ? null : scene}
       sceneCamera={splineScene ? null : sceneCamera}
       splineScene={splineScene}
+      splineStyle={splineStyle}
       watermark={<span className="font-extrabold uppercase">{world.name.split('-')[0]}</span>}
       watermarkClass="bottom-[-6vh] right-[-2vw] text-[34vw]"
     >
@@ -46,7 +48,6 @@ export default function BrandWorld({
           {[0, 1, 2, 3].map((cell) => <span key={cell} className="h-[11vw] max-h-32 w-[11vw] max-w-32 border-2 border-white" />)}
         </div>
       )}
-      {world.key === 'nike' && <div aria-hidden className="absolute -right-[8vw] top-[18vh] h-5 w-[58vw] -rotate-12 bg-[#CEFF00] opacity-80" />}
       {world.key === 'harley' && <div aria-hidden className="absolute inset-x-0 top-[48%] h-px bg-gradient-to-r from-transparent via-[#F47216]/70 to-transparent" />}
 
       <div className="relative grid grid-cols-12 items-center gap-8">
@@ -83,7 +84,7 @@ export default function BrandWorld({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.6 }}
             transition={{ duration: 0.7, delay: 0.15 }}
-            className="font-hanken mt-7 max-w-xl text-lg leading-relaxed"
+            className="font-hanken mt-7 max-w-xl text-xl leading-relaxed"
             style={{ color: world.sub }}
           >
             {lede}
@@ -101,7 +102,7 @@ export default function BrandWorld({
             <span className="font-hanken text-[0.68rem] uppercase tracking-[0.25em]" style={{ color: world.accent }}>
               For&nbsp;Gap
             </span>
-            <span className="font-hanken text-[0.98rem] leading-snug" style={{ color: world.ink }}>
+            <span className="font-hanken text-[1.1rem] leading-snug" style={{ color: world.ink }}>
               {lesson}
             </span>
           </motion.div>
@@ -119,7 +120,7 @@ export default function BrandWorld({
             <div className={`${world.font} font-bold leading-none`} style={{ fontSize: 'clamp(3.5rem, 8vw, 6rem)', color: world.accent }}>
               <CountUp value={proof.value} prefix={proof.prefix} suffix={proof.suffix} decimals={proof.decimals} />
             </div>
-            <div className="font-hanken mt-2 max-w-[16rem] text-sm leading-snug lg:ml-auto" style={{ color: world.sub }}>
+            <div className="font-hanken mt-2 max-w-[16rem] text-base leading-snug lg:ml-auto" style={{ color: world.sub }}>
               {proof.label}
             </div>
           </div>
@@ -129,7 +130,7 @@ export default function BrandWorld({
               <div className="font-grotesk text-4xl font-extrabold" style={{ color: world.ink }}>
                 <CountUp value={proof2.value} prefix={proof2.prefix} suffix={proof2.suffix} decimals={proof2.decimals} />
               </div>
-              <div className="font-hanken mt-1 max-w-[16rem] text-sm leading-snug lg:ml-auto" style={{ color: world.sub }}>
+              <div className="font-hanken mt-1 max-w-[16rem] text-base leading-snug lg:ml-auto" style={{ color: world.sub }}>
                 {proof2.label}
               </div>
             </div>

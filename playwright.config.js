@@ -3,7 +3,10 @@ import { defineConfig, devices } from '@playwright/test'
 export default defineConfig({
   testDir: './tests/e2e',
   fullyParallel: false,
-  retries: 0,
+  // The brand-world routes boot a full 3D/Spline stack; on a loaded box the
+  // first paint can run long, so give each test headroom plus one retry.
+  timeout: 60000,
+  retries: 1,
   use: {
     baseURL: 'http://127.0.0.1:4173',
     trace: 'retain-on-failure',

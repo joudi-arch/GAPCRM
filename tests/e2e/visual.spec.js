@@ -6,8 +6,8 @@ test('canonical pitch traverses every section without runtime errors', async ({ 
   await page.goto('/')
   for (const id of ['hero', 'zara', 'uniqlo', 'nike', 'harley', 'big-idea', 'rollout', 'kpis', 'cta']) {
     await page.locator(`#${id}`).scrollIntoViewIfNeeded()
-    await page.waitForTimeout(80)
-    expect(await page.locator('canvas').count()).toBeLessThanOrEqual(1)
+    await page.waitForTimeout(120)
+    expect(await page.locator('canvas').count(), `#${id} should host at most one canvas`).toBeLessThanOrEqual(1)
   }
   await expect(page.locator('#cta')).toBeVisible()
   expect(errors, `${testInfo.project.name} page errors`).toEqual([])

@@ -3,35 +3,49 @@ import { bigIdeaContent } from '../../content/pitch'
 import { worlds } from '../worlds'
 
 const gap = worlds.gap
+const EASE = [0.16, 1, 0.3, 1]
 
 function stageStyle(reducedMotion, opacity, y) {
   return reducedMotion ? undefined : { opacity, y }
 }
 
+// Shared entrance for the intro copy — same language as every other slide.
+// Static mode (reduced motion / poster) shows everything immediately.
+const enter = (reducedMotion, delay = 0) => (reducedMotion ? {} : {
+  initial: { opacity: 0, y: 16 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, amount: 0.5 },
+  transition: { duration: 0.7, delay, ease: EASE },
+})
+
 export default function BigIdeaOverlay({ progress, reducedMotion = false }) {
-  const profileOpacity = useTransform(progress, [0.32, 0.4, 0.56, 0.62], [0, 1, 1, 0])
-  const profileY = useTransform(progress, [0.32, 0.42], [24, 0])
-  const recommendationsOpacity = useTransform(progress, [0.54, 0.62, 0.79, 0.84], [0, 1, 1, 0])
-  const recommendationsY = useTransform(progress, [0.54, 0.66], [24, 0])
-  const outcomeOpacity = useTransform(progress, [0.78, 0.86], [0, 1])
-  const outcomeY = useTransform(progress, [0.78, 0.9], [24, 0])
+  // One copy block on stage at a time. Each beat fades the previous block up
+  // and out first, then settles the next one in — a clean replace, never two
+  // blocks half-visible on top of each other. (Stage targets live in
+  // three/bigIdeaNav: 0.52 profile, 0.74 recommendations, 0.95 outcome.)
+  const profileOpacity = useTransform(progress, [0.42, 0.51, 0.54, 0.62], [0, 1, 1, 0])
+  const profileY = useTransform(progress, [0.42, 0.51, 0.54, 0.62], [20, 0, 0, -14])
+  const recommendationsOpacity = useTransform(progress, [0.63, 0.73, 0.76, 0.84], [0, 1, 1, 0])
+  const recommendationsY = useTransform(progress, [0.63, 0.73, 0.76, 0.84], [20, 0, 0, -14])
+  const outcomeOpacity = useTransform(progress, [0.85, 0.94], [0, 1])
+  const outcomeY = useTransform(progress, [0.85, 0.94], [20, 0])
 
   return (
     <div className="relative flex min-h-[72vh] w-full flex-col justify-center pb-12 pt-20 lg:min-h-[78vh] lg:max-w-[58rem]">
-      <p className="font-hanken mb-5 flex items-center gap-4 text-[0.72rem] uppercase tracking-[0.28em]" style={{ color: gap.accent }}>
+      <motion.p {...enter(reducedMotion)} className="font-hanken mb-5 flex items-center gap-4 text-[0.72rem] uppercase tracking-[0.28em]" style={{ color: gap.accent }}>
         <span className="h-px w-12" style={{ background: gap.accent }} />
         The recommendation
-      </p>
+      </motion.p>
 
-      <h2 className="font-grotesk max-w-[12ch] text-balance font-extrabold uppercase leading-[0.9] tracking-[-0.035em]" style={{ fontSize: 'clamp(2.8rem, 6.4vw, 6rem)', color: gap.ink }}>
+      <motion.h2 {...enter(reducedMotion, 0.1)} className="font-grotesk max-w-[12ch] text-balance font-extrabold uppercase leading-[0.9] tracking-[-0.035em]" style={{ fontSize: 'clamp(2.8rem, 6.4vw, 6rem)', color: gap.ink }}>
         Make fit Gap’s identity—<span style={{ color: gap.accent }}>not its weakness.</span>
-      </h2>
+      </motion.h2>
 
-      <p className="font-hanken mt-6 max-w-[46ch] text-pretty text-xl leading-relaxed" style={{ color: gap.sub }}>
+      <motion.p {...enter(reducedMotion, 0.22)} className="font-hanken mt-6 max-w-[46ch] text-pretty text-xl leading-relaxed" style={{ color: gap.sub }}>
         {bigIdeaContent.explanation}
-      </p>
+      </motion.p>
 
-      <div className={`mt-10 min-h-[12rem] max-w-[34rem] ${reducedMotion ? 'grid gap-8' : 'relative'}`}>
+      <div className={`mt-10 max-w-[34rem] ${reducedMotion ? 'grid gap-8' : 'relative min-h-[16rem]'}`}>
         <motion.dl
           aria-label="Example fit profile"
           className={reducedMotion ? '' : 'absolute inset-x-0 top-0'}
@@ -72,7 +86,7 @@ export default function BigIdeaOverlay({ progress, reducedMotion = false }) {
         </motion.div>
 
         <motion.div
-          className={reducedMotion ? '' : 'absolute inset-x-0 top-2'}
+          className={reducedMotion ? '' : 'absolute inset-x-0 top-1'}
           style={stageStyle(reducedMotion, outcomeOpacity, outcomeY)}
         >
           <p className="font-hanken mb-3 text-[0.7rem] uppercase tracking-[0.22em]" style={{ color: gap.accent }}>The compounding loop</p>

@@ -56,9 +56,23 @@ export default function SiteScroll() {
       return idx
     }
 
-    const glideTo = (y) => {
+    // While a glide is in flight, scroll position is mid-way between slides, so
+    // deriving "where am I" from scrollY mis-resolves and a press can skip a
+    // slide (or eat its internal beats). Remember the slide we're heading to
+    // and treat it as the current one until the glide lands.
+    let inFlightId = null
+    let inFlightTimer = 0
+    const glideTo = (y, id = null) => {
+      inFlightId = id
+      window.clearTimeout(inFlightTimer)
+      inFlightTimer = window.setTimeout(() => { inFlightId = null }, 1250)
       if (window.__lenis) {
-        window.__lenis.scrollTo(y, { duration: 1.15, easing: easeOutCubic, lock: true })
+        window.__lenis.scrollTo(y, {
+          duration: 1.15,
+          easing: easeOutCubic,
+          lock: true,
+          onComplete: () => { inFlightId = null },
+        })
       } else {
         window.scrollTo({ top: y, behavior: 'smooth' })
       }
@@ -67,7 +81,8 @@ export default function SiteScroll() {
     const step = (dir) => {
       const list = sections()
       if (!list.length) return
-      const idx = currentIndex(list)
+      const flightIdx = inFlightId ? list.findIndex((s) => s.id === inFlightId) : -1
+      const idx = flightIdx >= 0 ? flightIdx : currentIndex(list)
       const here = list[idx]
 
       // On the recommendation slide, spend key presses on its internal beats
@@ -82,7 +97,7 @@ export default function SiteScroll() {
         if (dir > 0) bigIdeaResetToStart()
         else bigIdeaResetToEnd()
       }
-      glideTo(target.top)
+      glideTo(target.top, target.id)
     }
 
     const onKey = (e) => {
@@ -123,7 +138,10 @@ export default function SiteScroll() {
     }
 
     window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      window.clearTimeout(inFlightTimer)
+    }
   }, [])
 
   return (
